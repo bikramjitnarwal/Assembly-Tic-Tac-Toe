@@ -354,6 +354,42 @@ void draw_board(void){
 	
 	char text_top_row[100] = "Welcome to Tic-Tac-Toe!\0";
 	write_text(28, 3, text_top_row);
+	
+	// Top left box 
+	char top_left_box_number[10] = "1\0";
+	write_text(8, 7, top_left_box_number);
+	
+	// Top middle box 
+	char top_middle_box_number[10] = "2\0";
+	write_text(29, 7, top_middle_box_number);
+	
+	// Top right box 
+	char top_right_box_number[10] = "3\0";
+	write_text(55, 7, top_right_box_number);
+	
+	// Middle left box 
+	char middle_left_box_number[10] = "4\0";
+	write_text(8, 22, middle_left_box_number);
+	
+	// Middle middle box 
+	char middle_middle_box_number[10] = "5\0";
+	write_text(29, 22, middle_middle_box_number);
+	
+	// Middle right box 
+	char middle_right_box_number[10] = "6\0";
+	write_text(55, 22, middle_right_box_number);
+	
+	// Bottom left box 
+	char bottom_left_box_number[10] = "7\0";
+	write_text(8, 42, bottom_left_box_number);
+	
+	// Bottom middle box 
+	char bottom_middle_box_number[10] = "8\0";
+	write_text(29, 42, bottom_middle_box_number);
+	
+	// Bottom right box 
+	char bottom_right_box_number[10] = "9\0";
+	write_text(55, 42, bottom_right_box_number);
 }
 
 void write_text(int x, int y, char * text_ptr) {
