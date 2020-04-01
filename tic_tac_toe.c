@@ -18,15 +18,21 @@ int x;
 int y;
 void swap(int *first, int *second);
 void draw_board(void);
+void write_text(int x, int y, char * text_ptr);
 short int colour = 0x000000;//black
+/* create a message to be displayed on the video and LCD displays */
 
 
 int main(void) {
 	
 	x = 160;
 	y = 120;
+	
+	/* create a message to be displayed on the video and LCD displays */
+
 	volatile int * pixel_ctrl_ptr = (int *)0xFF203020;
-    /* Read location of the pixel buffer from the pixel buffer controller */
+    
+	/* Read location of the pixel buffer from the pixel buffer controller */
     pixel_buffer_start = *pixel_ctrl_ptr;
 	
 	clear_screen();
@@ -345,4 +351,21 @@ void draw_board(void){
 	draw_line(25, 159, 295, 159, 0XFFFF);
 	draw_line(25, 160, 295, 160, 0XFFFF);
 	draw_line(25, 161, 295, 161, 0XFFFF);
+	
+	char text_top_row[100] = "Welcome to Tic-Tac-Toe!\0";
+	write_text(28, 3, text_top_row);
+}
+
+void write_text(int x, int y, char * text_ptr) {
+	int offset;
+	volatile char * character_buffer = (char *)0xC9000000; // video character buffer
+	
+	/* assume that the text string fits on one line */
+	offset = (y << 7) + x;
+	
+	while (*(text_ptr)) {
+		*(character_buffer + offset) = *(text_ptr); // write to the character buffer
+		++text_ptr;
+		++offset;
+	}
 }
