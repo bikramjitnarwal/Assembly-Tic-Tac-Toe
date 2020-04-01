@@ -1,5 +1,6 @@
 //#include "address_map_arm.h"
 //#include "defines.h"
+#include <stdbool.h>
 #include <stdio.h>
 
 volatile int pixel_buffer_start; // global variable, to draw 
@@ -12,8 +13,11 @@ void enable_A9_interrupts(void);
 void keyboard_ISR(void);
 void config_interrupt(int, int);
 void plot_pixel(int x, int y, short int line_color);
+void draw_line(int x0, int y0, int x1, int y1, short int line_color);
 int x;
 int y;
+void swap(int *first, int *second);
+void draw_board(void);
 short int colour = 0x000000;//black
 
 
@@ -24,7 +28,10 @@ int main(void) {
 	volatile int * pixel_ctrl_ptr = (int *)0xFF203020;
     /* Read location of the pixel buffer from the pixel buffer controller */
     pixel_buffer_start = *pixel_ctrl_ptr;
-		
+	
+	clear_screen();
+	draw_board();
+	
 	disable_A9_interrupts(); // disable interrupts in the A9 processor
 	set_A9_IRQ_stack(); // initialize the stack pointer for IRQ mode
 	config_GIC(); // configure the general interrupt controller
@@ -244,8 +251,8 @@ void keyboard_ISR(void) {
 
 		if(byte0 == 0x29){  //Clears Screen, SpaceBar 
 			clear_screen(x,y,0x00); 
-			//drawBackground();
-			colour = 0x000000;
+			draw_board();
+			colour = 0xFFFF;
 			x=160; //reintialize 
 			y=120; 
 		}  
@@ -277,7 +284,65 @@ void keyboard_ISR(void) {
 	return;
 }
 
+void draw_line(int x0, int y0, int x1, int y1, short int line_color) {
+    bool is_steep = ( abs(y1 - y0) > abs(x1 - x0) );
+	
+    if (is_steep) {
+        swap(&x0, &y0);
+        swap(&x1, &y1);
+    }
+   
+    if (x0 > x1) {
+        swap(&x0, &x1);
+        swap(&y0, &y1);
+    }
+    
+    int delta_x = x1 - x0;
+    int delta_y = abs(y1 - y0);
+    int error = -(delta_x / 2);
+    
+    int y = y0;
+    int y_step;
+    if (y0 < y1) 
+        y_step =1;
+    else 
+        y_step = -1;
+    
+    for(int x = x0; x <= x1; x++) {
+        if (is_steep) 
+            plot_pixel(y, x, line_color);
+        else 
+            plot_pixel(x, y, line_color);
+        
+        error += delta_y;
+        
+        if (error >= 0) {
+            y +=y_step;
+            error -= delta_x;
+        }
+    } 
+}
 
+void swap(int *first, int *second){
+	int temp = *first;
+    *first = *second;
+    *second = temp;   
+}
 
+void draw_board(void){
+	draw_line(105, 25, 105, 215, 0XFFFF);
+	draw_line(106, 25, 106, 215, 0XFFFF);
+	draw_line(107, 25, 107, 215, 0XFFFF);
+	
+	draw_line(211, 25, 211,  215, 0XFFFF);
+	draw_line(212, 25, 212, 215, 0XFFFF);
+	draw_line(213, 25, 213, 215, 0XFFFF);
 
-
+	draw_line(25, 79, 295, 79, 0XFFFF);
+	draw_line(25, 80, 295, 80, 0XFFFF);
+	draw_line(25, 81, 295, 81, 0XFFFF);
+	
+	draw_line(25, 159, 295, 159, 0XFFFF);
+	draw_line(25, 160, 295, 160, 0XFFFF);
+	draw_line(25, 161, 295, 161, 0XFFFF);
+}
