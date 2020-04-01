@@ -1,9 +1,6 @@
-//#include "address_map_arm.h"
-//#include "defines.h"
 #include <stdbool.h>
 #include <stdio.h>
 
-volatile int pixel_buffer_start; // global variable, to draw 
 void clear_screen ();
 void disable_A9_interrupts(void);
 void set_A9_IRQ_stack(void);
@@ -14,23 +11,22 @@ void keyboard_ISR(void);
 void config_interrupt(int, int);
 void plot_pixel(int x, int y, short int line_color);
 void draw_line(int x0, int y0, int x1, int y1, short int line_color);
-int x;
-int y;
-int selection_x;
-int selection_y;
 void draw_selection_box(int x, int y, short int selection_colour);
 void swap(int *first, int *second);
 void draw_board(void);
 void write_text(int x, int y, char * text_ptr);
-short int colour = 0x000000;//black
-/* create a message to be displayed on the video and LCD displays */
+
+// Global variables
+int selection_x;
+int selection_y;
+short int colour = 0x0000;
+volatile int pixel_buffer_start; // global variable, to draw 
 
 
 int main(void) {
-	
-	x = 160;
-	y = 120;
-	
+
+	// This is the top left corner of the first box
+	// Red selection box starts here initially
 	selection_x = 25;
 	selection_y = 25;
 	
@@ -189,8 +185,7 @@ void keyboard_ISR(void) {
     
 	int PS2_data = *(PS2_ptr);
 	int RVALID = PS2_data & 0x8000;
-	int i = 0;
-        
+	
 	unsigned char key [4] = {0,0,0,0};
 	int readInterruptReg;
     
@@ -199,13 +194,7 @@ void keyboard_ISR(void) {
 	  
 	//Clear Interrupt 
 	*(PS2_ptr+1) = readInterruptReg; 
-	
-	int LED_1 = 0x1; 
-	int LED_2 = 0x2;
-	int LED_3 = 0x3;
-	int LED_4 = 0x4; 
-	int ERROR = 0x5;
-	
+
 	*(LED_ptr) = 0x40;
 	
 	// when RVALID is 1, there is data 
@@ -214,21 +203,6 @@ void keyboard_ISR(void) {
 		byte0 = (PS2_data & 0xFF); //data in LSB	
 		*(LED_ptr) = 0x20;
 	
-		if(byte0 == 0x32) //B, Blue
-		colour=0x0000FF;
-	
-		if(byte0 == 0x4D) //P, Purple
-		colour=0xF81F;
-		
-		if(byte0 == 0x2D) //R, Red
-		colour=0xF800;
-		
-		if(byte0 == 0x34) //G, Green 
-		colour=0x07E0; 
-		
-		if(byte0 == 0x35) //Y, Yellow
-		colour=0xFFFF00;
-        
 		if(byte0 == 0x1D){  //UP, W
 			// Erase currently drawn selection box by drawing it black
 			draw_selection_box(selection_x, selection_y, 0x0000);
@@ -286,7 +260,7 @@ void keyboard_ISR(void) {
 		}
 
 		if(byte0 == 0x29){  //Clears Screen, SpaceBar 
-			clear_screen(x,y,0x00); 
+			clear_screen(0,0,0x00); 
 			draw_board();
 						
 			// Reinitialize selection box to the top left box
@@ -386,9 +360,15 @@ void keyboard_ISR(void) {
 			draw_selection_box(selection_x, selection_y, 0xF800);
 		}
 		
-	
+		if(byte0 == 0x5A){ //User hit enter
+			// do something (draw x/o, check winner, etc..)
+			// Use selection coords to check which box user is in and draw there
+		}
+		
+		int i = 0;
+		
 		if(byte0 == 0xF0) {
-			// going to check for break;
+			// Check for break
 			*(LED_ptr) = 0x00;
 			for(i = 0; i < 32; ++i)
 				*(LED_ptr) ^= 0x80;
