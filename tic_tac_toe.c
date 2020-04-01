@@ -294,6 +294,98 @@ void keyboard_ISR(void) {
 			selection_y = 25;
 			draw_selection_box(selection_x, selection_y, 0xF800);
 		}  
+		
+		if(byte0 == 0x16){ //Select Box 1 
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 25;
+			selection_y = 25;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
+		if(byte0 == 0x1E){ //Select Box 2 
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 115;
+			selection_y = 25;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+
+		}
+		
+		if(byte0 == 0x26){ //Select Box 3 
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 205;
+			selection_y = 25;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
+		if(byte0 == 0x25){//Select Box 4
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 25;
+			selection_y = 88;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
+		if(byte0 == 0x2E){//Select Box 5
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 115;
+			selection_y = 88;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
+		if(byte0 == 0x36){//Select Box 6
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 205;
+			selection_y = 88;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
+		if(byte0 == 0x3D){//Select Box 7
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 25;
+			selection_y = 151;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
+		if(byte0 == 0x3E){//Select Box 8
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 115;
+			selection_y = 151;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
+		if(byte0 == 0x46){//Select Box 9
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 205;
+			selection_y = 151;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
 	
 		if(byte0 == 0xF0) {
 			// going to check for break;
