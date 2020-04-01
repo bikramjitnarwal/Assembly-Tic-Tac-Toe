@@ -16,6 +16,9 @@ void plot_pixel(int x, int y, short int line_color);
 void draw_line(int x0, int y0, int x1, int y1, short int line_color);
 int x;
 int y;
+int selection_x;
+int selection_y;
+void draw_selection_box(int x, int y, short int selection_colour);
 void swap(int *first, int *second);
 void draw_board(void);
 void write_text(int x, int y, char * text_ptr);
@@ -28,6 +31,9 @@ int main(void) {
 	x = 160;
 	y = 120;
 	
+	selection_x = 25;
+	selection_y = 25;
+	
 	/* create a message to be displayed on the video and LCD displays */
 
 	volatile int * pixel_ctrl_ptr = (int *)0xFF203020;
@@ -37,6 +43,7 @@ int main(void) {
 	
 	clear_screen();
 	draw_board();
+	draw_selection_box(selection_x, selection_y, 0xF800);
 	
 	disable_A9_interrupts(); // disable interrupts in the A9 processor
 	set_A9_IRQ_stack(); // initialize the stack pointer for IRQ mode
@@ -223,44 +230,69 @@ void keyboard_ISR(void) {
 		colour=0xFFFF00;
         
 		if(byte0 == 0x1D){  //UP, W
-			*(LED_ptr) = 0x01; //led 0
-			key[0] = 1;
-	
-			y = y - 1;
-			plot_pixel(x, y, colour);
+			// Erase currently drawn selection box by drawing it black
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			selection_y = selection_y - 63;
+			
+			// Loop back to the first box
+			if (selection_y == -38){
+				selection_y = 151;
+			}
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
 		}
 
 		if(byte0 == 0x1B){ //DOWN, S
-			*(LED_ptr) = 0x02;  //led 2
-			key[1] = 1;
+			// Erase currently drawn selection box by drawing it black
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			selection_y = selection_y + 63;
 			
-			y=y+1;
-			plot_pixel(x,y,colour);
+			// Loop back to the first box
+			if (selection_y == 214){
+				selection_y = 25;
+			}
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
 		}
 	
 		if(byte0 == 0x1C){ //LEFT, A
-			*(LED_ptr) = 0x04;  //led 0 & 1 
-			key[2] = 1;
+			// Erase currently drawn selection box by drawing it black
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			selection_x = selection_x - 90;
 			
-				x= x-1;
-			plot_pixel(x,y,colour);
-		
+			// Loop back to the first box
+			if (selection_x == -65){
+				selection_x = 205;
+			}
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
 		}
 
 		if(byte0 == 0x23){ //RIGHT, D
-			*(LED_ptr) = 0x08; // led 3
-			key[3] = 1;
+			// Erase currently drawn selection box by drawing it black
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			selection_x = selection_x + 90;
 			
-			x= x+1;
-			plot_pixel(x,y,colour);
+			// Loop back to the first box
+			if (selection_x == 295){
+				selection_x = 25;
+			}
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
 		}
 
 		if(byte0 == 0x29){  //Clears Screen, SpaceBar 
 			clear_screen(x,y,0x00); 
 			draw_board();
-			colour = 0xFFFF;
-			x=160; //reintialize 
-			y=120; 
+						
+			// Reinitialize selection box to the top left box
+			selection_x = 25;
+			selection_y = 25;
+			draw_selection_box(selection_x, selection_y, 0xF800);
 		}  
 	
 		if(byte0 == 0xF0) {
@@ -336,21 +368,21 @@ void swap(int *first, int *second){
 }
 
 void draw_board(void){
-	draw_line(105, 25, 105, 215, 0XFFFF);
-	draw_line(106, 25, 106, 215, 0XFFFF);
-	draw_line(107, 25, 107, 215, 0XFFFF);
+	draw_line(114, 25, 114, 213, 0XFFFF);
+	draw_line(115, 25, 115, 213, 0XFFFF);
+	draw_line(116, 25, 116, 213, 0XFFFF);
 	
-	draw_line(211, 25, 211,  215, 0XFFFF);
-	draw_line(212, 25, 212, 215, 0XFFFF);
-	draw_line(213, 25, 213, 215, 0XFFFF);
+	draw_line(204, 25, 204, 213, 0XFFFF);
+	draw_line(205, 25, 205, 213, 0XFFFF);
+	draw_line(206, 25, 206, 213, 0XFFFF);
 
-	draw_line(25, 79, 295, 79, 0XFFFF);
-	draw_line(25, 80, 295, 80, 0XFFFF);
-	draw_line(25, 81, 295, 81, 0XFFFF);
+	draw_line(25, 87, 295, 87, 0XFFFF);
+	draw_line(25, 88, 295, 88, 0XFFFF);
+	draw_line(25, 89, 295, 89, 0XFFFF);
 	
-	draw_line(25, 159, 295, 159, 0XFFFF);
-	draw_line(25, 160, 295, 160, 0XFFFF);
-	draw_line(25, 161, 295, 161, 0XFFFF);
+	draw_line(25, 150, 295, 150, 0XFFFF);
+	draw_line(25, 151, 295, 151, 0XFFFF);
+	draw_line(25, 152, 295, 152, 0XFFFF);
 	
 	char text_top_row[100] = "Welcome to Tic-Tac-Toe!\0";
 	write_text(28, 3, text_top_row);
@@ -361,35 +393,35 @@ void draw_board(void){
 	
 	// Top middle box 
 	char top_middle_box_number[10] = "2\0";
-	write_text(29, 7, top_middle_box_number);
+	write_text(30, 7, top_middle_box_number);
 	
 	// Top right box 
 	char top_right_box_number[10] = "3\0";
-	write_text(55, 7, top_right_box_number);
+	write_text(53, 7, top_right_box_number);
 	
 	// Middle left box 
 	char middle_left_box_number[10] = "4\0";
-	write_text(8, 22, middle_left_box_number);
+	write_text(8, 24, middle_left_box_number);
 	
 	// Middle middle box 
 	char middle_middle_box_number[10] = "5\0";
-	write_text(29, 22, middle_middle_box_number);
+	write_text(30, 24, middle_middle_box_number);
 	
 	// Middle right box 
 	char middle_right_box_number[10] = "6\0";
-	write_text(55, 22, middle_right_box_number);
+	write_text(53, 24, middle_right_box_number);
 	
 	// Bottom left box 
 	char bottom_left_box_number[10] = "7\0";
-	write_text(8, 42, bottom_left_box_number);
+	write_text(8, 39, bottom_left_box_number);
 	
 	// Bottom middle box 
 	char bottom_middle_box_number[10] = "8\0";
-	write_text(29, 42, bottom_middle_box_number);
+	write_text(30, 39, bottom_middle_box_number);
 	
 	// Bottom right box 
 	char bottom_right_box_number[10] = "9\0";
-	write_text(55, 42, bottom_right_box_number);
+	write_text(53, 39, bottom_right_box_number);
 }
 
 void write_text(int x, int y, char * text_ptr) {
@@ -404,4 +436,12 @@ void write_text(int x, int y, char * text_ptr) {
 		++text_ptr;
 		++offset;
 	}
+}
+
+
+void draw_selection_box(int x, int y, short int selection_colour) {
+	draw_line(x, y, x + 90, y, selection_colour);
+	draw_line(x + 90, y, x + 90, y + 63, selection_colour);
+	draw_line(x + 90, y + 63, x, y + 63, selection_colour);
+	draw_line(x, y + 63, x, y, selection_colour);
 }
