@@ -530,7 +530,9 @@ void draw_player(int boardIndex, char Turn){
 }
 
 void draw_player_X(int boardIndex){
+	// left diagonal coordinates
 	int initial_left_X0 = 25, initial_left_Y0 = 25, initial_left_X1 = 115, initial_left_Y1 = 88;
+	// right diagonal coordinates
 	int initial_right_X0 = 115, initial_right_Y0 = 25, initial_right_X1 = 25, initial_right_Y1 = 88;
 	
 	if(boardIndex == 1){
@@ -570,8 +572,31 @@ void draw_player_X(int boardIndex){
 		draw_line(initial_right_X0 + 180, initial_right_Y0 + 126, initial_right_X1 + 180, initial_right_Y1 + 126, 0xFFFF);
 	}
 }
-
-
-void draw_player_O(int boardIndex){
 	
+void draw_player_O(int boardIndex){
+	// top left and top right coordinates 
+	int initial_TL_X = 47, initial_TL_Y = 29, initial_TY_X = 92, initial_TR_Y = 29;
+	// bottom left and bottom right coordinates 
+	int initial_BL_X = 47, initial_BL_Y = 84, initial_BY_X = 92, initial_BR_Y = 84;
+	
+	if(boardIndex == 1){
+		
+	} else if(boardIndex == 2){
+		
+	} else if(boardIndex == 3){
+		
+	} else if(boardIndex == 4){
+	
+	} else if(boardIndex == 5){
+		
+	} else if(boardIndex == 6){
+
+	} else if(boardIndex == 7){
+	
+	} else if(boardIndex == 8){
+		
+	} else if(boardIndex == 9){
+
+	}
 }
+
