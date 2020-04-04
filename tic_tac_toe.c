@@ -18,6 +18,7 @@ void write_text(int x, int y, char * text_ptr);
 void draw_player(int boardIndex, char Turn);
 void draw_player_X(int boardIndex);
 void draw_player_O(int boardIndex);
+void initial_screen();
 
 // Global variables
 int selection_x;
@@ -670,4 +671,107 @@ void draw_player_O(int boardIndex){
 		draw_line(RightLine_B_X + 180, RightLine_B_Y + 126, RightLine_U_X + 180, RightLine_U_Y + 126, 0xFFFF);
 		draw_line(RightLine_U_X + 180, RightLine_U_Y + 126, UpLine_R_X + 180, UpLine_R_Y + 126, 0xFFFF);
 	}
+}
+
+void initial_screen(){
+	for (int x = 0; x < 320; x++){
+		for (int y = 0; y < 240; y++){
+			plot_pixel(x, y, 0x00FF);
+		}
+	}
+
+	// W
+	draw_line(80, 40, 85, 70, 0xFFFF);
+	draw_line(85, 70, 90, 55, 0xFFFF);
+	draw_line(90, 55, 95, 70, 0xFFFF);
+	draw_line(95, 70, 100, 40, 0xFFFF);
+	
+	// E
+	draw_line(103, 40, 103, 70, 0xFFFF);
+	draw_line(103, 40, 115, 40, 0xFFFF);
+	draw_line(103, 70, 115, 70, 0xFFFF);
+	draw_line(103, 55, 110, 55, 0xFFFF);
+	
+	// L 
+	draw_line(118, 40, 118, 70, 0xFFFF);
+	draw_line(118, 70, 130, 70, 0xFFFF);
+
+	// C
+	draw_line(133, 40, 133, 70, 0xFFFF);
+	draw_line(133, 40, 145, 40, 0xFFFF);
+	draw_line(133, 70, 145, 70, 0xFFFF);
+
+	// O
+	draw_line(148, 40, 160, 40, 0xFFFF);
+	draw_line(148, 70, 160, 70, 0xFFFF);
+	draw_line(148, 40, 148, 70, 0xFFFF);
+	draw_line(160, 40, 160, 70, 0xFFFF);
+	
+	// M
+	draw_line(163, 40, 163, 70, 0xFFFF);
+	draw_line(163, 40, 170, 50, 0xFFFF);
+	draw_line(170, 50, 177, 40, 0xFFFF);
+	draw_line(177, 40, 177, 70, 0xFFFF);
+
+	// E
+	draw_line(180, 40, 180, 70, 0xFFFF);
+	draw_line(180, 40, 192, 40, 0xFFFF);
+	draw_line(180, 70, 192, 70, 0xFFFF);
+	draw_line(180, 55, 187, 55, 0xFFFF);
+	
+	// T
+	draw_line(204, 40, 220, 40, 0xFFFF);
+	draw_line(212, 40, 212, 70, 0xFFFF);
+	
+	// O
+	draw_line(224, 40, 236, 40, 0xFFFF);
+	draw_line(224, 70, 236, 70, 0xFFFF);
+	draw_line(224, 40, 224, 70, 0xFFFF);
+	draw_line(236, 40, 236, 70, 0xFFFF);
+	
+	// T
+	draw_line(32, 90, 47, 90, 0xFFFF);
+	draw_line(40, 90, 40, 120, 0xFFFF);
+	
+	// I 
+	draw_line(50, 90, 64, 90, 0xFFFF);
+	draw_line(50, 120, 64, 120, 0xFFFF);
+	draw_line(57, 90, 57, 120, 0xFFFF);
+
+	// C
+	draw_line(67, 90, 67, 120, 0xFFFF);
+	draw_line(67, 90, 79, 90, 0xFFFF);
+	draw_line(67, 120, 79, 120, 0xFFFF);
+
+	// - 
+	draw_line(90, 105, 101, 105, 0xFFFF);
+	
+	// T
+	draw_line(107, 90, 121, 90, 0xFFFF);
+	draw_line(114, 90, 114, 120, 0xFFFF);
+	
+	// A
+	draw_line(124, 90, 136, 90, 0xFFFF);
+	draw_line(124, 105, 136, 105, 0xFFFF);
+	draw_line(124, 90, 124, 120, 0xFFFF);
+	draw_line(136, 90, 136, 120, 0xFFFF);
+	
+	// C
+	draw_line(139, 90, 139, 120, 0xFFFF);
+	draw_line(139, 90, 151, 90, 0xFFFF);
+	draw_line(139, 120, 151, 120, 0xFFFF);
+	
+	// T
+	draw_line(154, 90, 168, 90, 0xFFFF);
+	draw_line(161, 90, 161, 120, 0xFFFF);
+	
+	// - 
+	draw_line(90, 105, 101, 105, 0xFFFF);
+	
+	// O
+	draw_line(171, 90, 183, 90, 0xFFFF);
+	draw_line(171, 120, 183, 120, 0xFFFF);
+	draw_line(171, 90, 171, 120, 0xFFFF);
+	draw_line(183, 90, 183, 120, 0xFFFF);
+	
 }
