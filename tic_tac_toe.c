@@ -531,9 +531,9 @@ void draw_player(int boardIndex, char Turn){
 
 void draw_player_X(int boardIndex){
 	// left diagonal coordinates
-	int initial_left_X0 = 25, initial_left_Y0 = 25, initial_left_X1 = 115, initial_left_Y1 = 88;
+	int initial_left_X0 = 29, initial_left_Y0 = 29, initial_left_X1 = 111, initial_left_Y1 = 84;
 	// right diagonal coordinates
-	int initial_right_X0 = 115, initial_right_Y0 = 25, initial_right_X1 = 25, initial_right_Y1 = 88;
+	int initial_right_X0 = 111, initial_right_Y0 = 29, initial_right_X1 = 29, initial_right_Y1 = 84;
 	
 	if(boardIndex == 1){
 		draw_line(initial_left_X0, initial_left_Y0, initial_left_X1, initial_left_Y1, 0xFFFF);
