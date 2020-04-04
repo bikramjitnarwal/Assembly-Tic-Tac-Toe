@@ -574,29 +574,100 @@ void draw_player_X(int boardIndex){
 }
 	
 void draw_player_O(int boardIndex){
-	// top left and top right coordinates 
-	int initial_TL_X = 47, initial_TL_Y = 29, initial_TY_X = 92, initial_TR_Y = 29;
-	// bottom left and bottom right coordinates 
-	int initial_BL_X = 47, initial_BL_Y = 84, initial_BY_X = 92, initial_BR_Y = 84;
+	int UpLine_R_X = 98, UpLine_R_Y = 27, UpLine_L_X = 42, UpLine_L_Y = 27;
+	int BottomLine_R_X = 98, BottomLine_R_Y = 86, BottomLine_L_X = 42, BottomLine_L_Y = 86;
+	
+	int LeftLine_U_X = 30, LeftLine_U_Y = 31, LeftLine_B_X = 30, LeftLine_B_Y = 82; 
+	int RightLine_U_X = 110, RightLine_U_Y = 31, RightLine_B_X = 110, RightLine_B_Y = 82; 
 	
 	if(boardIndex == 1){
+		draw_line(UpLine_R_X, UpLine_R_Y, UpLine_L_X, UpLine_L_Y, 0xFFFF);
+		draw_line(UpLine_L_X, UpLine_L_Y, LeftLine_U_X, LeftLine_U_Y, 0xFFFF);
+		draw_line(LeftLine_U_X, LeftLine_U_Y, LeftLine_B_X, LeftLine_B_Y, 0xFFFF);
+		draw_line(LeftLine_B_X, LeftLine_B_Y, BottomLine_L_X, BottomLine_L_Y, 0xFFFF);
+		draw_line(BottomLine_L_X, BottomLine_L_Y, BottomLine_R_X, BottomLine_R_Y, 0xFFFF);
+		draw_line(BottomLine_R_X, BottomLine_R_Y, RightLine_B_X, RightLine_B_Y, 0xFFFF);
+		draw_line(RightLine_B_X, RightLine_B_Y, RightLine_U_X, RightLine_U_Y, 0xFFFF);
+		draw_line(RightLine_U_X, RightLine_U_Y, UpLine_R_X, UpLine_R_Y, 0xFFFF);
 		
 	} else if(boardIndex == 2){
+		draw_line(UpLine_R_X + 90, UpLine_R_Y, UpLine_L_X + 90, UpLine_L_Y, 0xFFFF);
+		draw_line(UpLine_L_X + 90, UpLine_L_Y, LeftLine_U_X + 90, LeftLine_U_Y, 0xFFFF);
+		draw_line(LeftLine_U_X + 90, LeftLine_U_Y, LeftLine_B_X + 90, LeftLine_B_Y, 0xFFFF);
+		draw_line(LeftLine_B_X + 90, LeftLine_B_Y, BottomLine_L_X + 90, BottomLine_L_Y, 0xFFFF);
+		draw_line(BottomLine_L_X + 90, BottomLine_L_Y, BottomLine_R_X + 90, BottomLine_R_Y, 0xFFFF);
+		draw_line(BottomLine_R_X + 90, BottomLine_R_Y, RightLine_B_X + 90, RightLine_B_Y, 0xFFFF);
+		draw_line(RightLine_B_X + 90, RightLine_B_Y, RightLine_U_X + 90, RightLine_U_Y, 0xFFFF);
+		draw_line(RightLine_U_X + 90, RightLine_U_Y, UpLine_R_X + 90, UpLine_R_Y, 0xFFFF);
 		
 	} else if(boardIndex == 3){
-		
+		draw_line(UpLine_R_X + 180, UpLine_R_Y, UpLine_L_X + 180, UpLine_L_Y, 0xFFFF);
+		draw_line(UpLine_L_X + 180, UpLine_L_Y, LeftLine_U_X + 180, LeftLine_U_Y, 0xFFFF);
+		draw_line(LeftLine_U_X + 180, LeftLine_U_Y, LeftLine_B_X + 180, LeftLine_B_Y, 0xFFFF);
+		draw_line(LeftLine_B_X + 180, LeftLine_B_Y, BottomLine_L_X + 180, BottomLine_L_Y, 0xFFFF);
+		draw_line(BottomLine_L_X + 180, BottomLine_L_Y, BottomLine_R_X + 180, BottomLine_R_Y, 0xFFFF);
+		draw_line(BottomLine_R_X + 180, BottomLine_R_Y, RightLine_B_X + 180, RightLine_B_Y, 0xFFFF);
+		draw_line(RightLine_B_X + 180, RightLine_B_Y, RightLine_U_X + 180, RightLine_U_Y, 0xFFFF);
+		draw_line(RightLine_U_X + 180, RightLine_U_Y, UpLine_R_X + 180, UpLine_R_Y, 0xFFFF);
+				
 	} else if(boardIndex == 4){
-	
-	} else if(boardIndex == 5){
-		
-	} else if(boardIndex == 6){
+		draw_line(UpLine_R_X, UpLine_R_Y + 63, UpLine_L_X, UpLine_L_Y + 63, 0xFFFF);
+		draw_line(UpLine_L_X, UpLine_L_Y + 63, LeftLine_U_X, LeftLine_U_Y + 63, 0xFFFF);
+		draw_line(LeftLine_U_X, LeftLine_U_Y + 63, LeftLine_B_X, LeftLine_B_Y + 63, 0xFFFF);
+		draw_line(LeftLine_B_X, LeftLine_B_Y + 63, BottomLine_L_X, BottomLine_L_Y + 63, 0xFFFF);
+		draw_line(BottomLine_L_X, BottomLine_L_Y + 63, BottomLine_R_X, BottomLine_R_Y + 63, 0xFFFF);
+		draw_line(BottomLine_R_X, BottomLine_R_Y + 63, RightLine_B_X, RightLine_B_Y + 63, 0xFFFF);
+		draw_line(RightLine_B_X, RightLine_B_Y + 63, RightLine_U_X, RightLine_U_Y + 63, 0xFFFF);
+		draw_line(RightLine_U_X, RightLine_U_Y + 63, UpLine_R_X, UpLine_R_Y + 63, 0xFFFF);
 
-	} else if(boardIndex == 7){
+	} else if(boardIndex == 5){
+		draw_line(UpLine_R_X + 90, UpLine_R_Y + 63, UpLine_L_X + 90, UpLine_L_Y + 63, 0xFFFF);
+		draw_line(UpLine_L_X + 90, UpLine_L_Y + 63, LeftLine_U_X + 90, LeftLine_U_Y + 63, 0xFFFF);
+		draw_line(LeftLine_U_X + 90, LeftLine_U_Y + 63, LeftLine_B_X + 90, LeftLine_B_Y + 63, 0xFFFF);
+		draw_line(LeftLine_B_X + 90, LeftLine_B_Y + 63, BottomLine_L_X + 90, BottomLine_L_Y + 63, 0xFFFF);
+		draw_line(BottomLine_L_X + 90, BottomLine_L_Y + 63, BottomLine_R_X + 90, BottomLine_R_Y + 63, 0xFFFF);
+		draw_line(BottomLine_R_X + 90, BottomLine_R_Y + 63, RightLine_B_X + 90, RightLine_B_Y + 63, 0xFFFF);
+		draw_line(RightLine_B_X + 90, RightLine_B_Y + 63, RightLine_U_X + 90, RightLine_U_Y + 63, 0xFFFF);
+		draw_line(RightLine_U_X + 90, RightLine_U_Y + 63, UpLine_R_X + 90, UpLine_R_Y + 63, 0xFFFF);
 	
+	} else if(boardIndex == 6){
+		draw_line(UpLine_R_X + 180, UpLine_R_Y + 63, UpLine_L_X + 180, UpLine_L_Y + 63, 0xFFFF);
+		draw_line(UpLine_L_X + 180, UpLine_L_Y + 63, LeftLine_U_X + 180, LeftLine_U_Y + 63, 0xFFFF);
+		draw_line(LeftLine_U_X + 180, LeftLine_U_Y + 63, LeftLine_B_X + 180, LeftLine_B_Y + 63, 0xFFFF);
+		draw_line(LeftLine_B_X + 180, LeftLine_B_Y + 63, BottomLine_L_X + 180, BottomLine_L_Y + 63, 0xFFFF);
+		draw_line(BottomLine_L_X + 180, BottomLine_L_Y + 63, BottomLine_R_X + 180, BottomLine_R_Y + 63, 0xFFFF);
+		draw_line(BottomLine_R_X + 180, BottomLine_R_Y + 63, RightLine_B_X + 180, RightLine_B_Y + 63, 0xFFFF);
+		draw_line(RightLine_B_X + 180, RightLine_B_Y + 63, RightLine_U_X + 180, RightLine_U_Y + 63, 0xFFFF);
+		draw_line(RightLine_U_X + 180, RightLine_U_Y + 63, UpLine_R_X + 180, UpLine_R_Y + 63, 0xFFFF);
+		
+	} else if(boardIndex == 7){
+		draw_line(UpLine_R_X, UpLine_R_Y + 126, UpLine_L_X, UpLine_L_Y + 126, 0xFFFF);
+		draw_line(UpLine_L_X, UpLine_L_Y + 126, LeftLine_U_X, LeftLine_U_Y + 126, 0xFFFF);
+		draw_line(LeftLine_U_X, LeftLine_U_Y + 126, LeftLine_B_X, LeftLine_B_Y + 126, 0xFFFF);
+		draw_line(LeftLine_B_X, LeftLine_B_Y + 126, BottomLine_L_X, BottomLine_L_Y + 126, 0xFFFF);
+		draw_line(BottomLine_L_X, BottomLine_L_Y + 126, BottomLine_R_X, BottomLine_R_Y + 126, 0xFFFF);
+		draw_line(BottomLine_R_X, BottomLine_R_Y + 126, RightLine_B_X, RightLine_B_Y + 126, 0xFFFF);
+		draw_line(RightLine_B_X, RightLine_B_Y + 126, RightLine_U_X, RightLine_U_Y + 126, 0xFFFF);
+		draw_line(RightLine_U_X, RightLine_U_Y + 126, UpLine_R_X, UpLine_R_Y + 126, 0xFFFF);
+		
 	} else if(boardIndex == 8){
+		draw_line(UpLine_R_X + 90, UpLine_R_Y + 126, UpLine_L_X + 90, UpLine_L_Y + 126, 0xFFFF);
+		draw_line(UpLine_L_X + 90, UpLine_L_Y + 126, LeftLine_U_X + 90, LeftLine_U_Y + 126, 0xFFFF);
+		draw_line(LeftLine_U_X + 90, LeftLine_U_Y + 126, LeftLine_B_X + 90, LeftLine_B_Y + 126, 0xFFFF);
+		draw_line(LeftLine_B_X + 90, LeftLine_B_Y + 126, BottomLine_L_X + 90, BottomLine_L_Y + 126, 0xFFFF);
+		draw_line(BottomLine_L_X + 90, BottomLine_L_Y + 126, BottomLine_R_X + 90, BottomLine_R_Y + 126, 0xFFFF);
+		draw_line(BottomLine_R_X + 90, BottomLine_R_Y + 126, RightLine_B_X + 90, RightLine_B_Y + 126, 0xFFFF);
+		draw_line(RightLine_B_X + 90, RightLine_B_Y + 126, RightLine_U_X + 90, RightLine_U_Y + 126, 0xFFFF);
+		draw_line(RightLine_U_X + 90, RightLine_U_Y + 126, UpLine_R_X + 90, UpLine_R_Y + 126, 0xFFFF);
 		
 	} else if(boardIndex == 9){
-
+		draw_line(UpLine_R_X + 180, UpLine_R_Y + 126, UpLine_L_X + 180, UpLine_L_Y + 126, 0xFFFF);
+		draw_line(UpLine_L_X + 180, UpLine_L_Y + 126, LeftLine_U_X + 180, LeftLine_U_Y + 126, 0xFFFF);
+		draw_line(LeftLine_U_X + 180, LeftLine_U_Y + 126, LeftLine_B_X + 180, LeftLine_B_Y + 126, 0xFFFF);
+		draw_line(LeftLine_B_X + 180, LeftLine_B_Y + 126, BottomLine_L_X + 180, BottomLine_L_Y + 126, 0xFFFF);
+		draw_line(BottomLine_L_X + 180, BottomLine_L_Y + 126, BottomLine_R_X + 180, BottomLine_R_Y + 126, 0xFFFF);
+		draw_line(BottomLine_R_X + 180, BottomLine_R_Y + 126, RightLine_B_X + 180, RightLine_B_Y + 126, 0xFFFF);
+		draw_line(RightLine_B_X + 180, RightLine_B_Y + 126, RightLine_U_X + 180, RightLine_U_Y + 126, 0xFFFF);
+		draw_line(RightLine_U_X + 180, RightLine_U_Y + 126, UpLine_R_X + 180, UpLine_R_Y + 126, 0xFFFF);
 	}
 }
-
