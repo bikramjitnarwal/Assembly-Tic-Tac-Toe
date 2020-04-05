@@ -679,7 +679,7 @@ void draw_player_O(int boardIndex){
 }
 
 void initial_screen(){
-	int offset = 20. offset2 = 0;
+	int offset = 20. offset2 = 15;
 	
 	for (int x = 0; x < 320; x++){
 		for (int y = 0; y < 240; y++){
@@ -788,23 +788,78 @@ void initial_screen(){
 	draw_line(215 + offset, 105, 221 + offset, 105, 0xFFFF);
 	
 	// P
-	draw_line(20, 160, 35, 160, 0xFFFF); 
-	draw_line(20, 160, 20, 190, 0xFFFF); 
-	draw_line(20, 173, 35, 173, 0xFFFF); 
-	draw_line(35, 160, 35, 173, 0xFFFF); 
+	draw_line(20 + offset2, 160, 35 + offset2, 160, 0xFFFF); 
+	draw_line(20 + offset2, 160, 20 + offset2, 190, 0xFFFF); 
+	draw_line(20 + offset2, 173, 35 + offset2, 173, 0xFFFF); 
+	draw_line(35 + offset2, 160, 35 + offset2, 173, 0xFFFF); 
 	
 	// R
-	draw_line(38, 160, 53, 160, 0xFFFF); 
-	draw_line(38, 160, 38, 190, 0xFFFF); 
-	draw_line(38, 173, 53, 173, 0xFFFF); 
-	draw_line(53, 160, 53, 173, 0xFFFF); 
-	draw_line(38, 173, 53, 190, 0xFFFF); 
+	draw_line(38 + offset2, 160, 53 + offset2, 160, 0xFFFF); 
+	draw_line(38 + offset2, 160, 38 + offset2, 190, 0xFFFF); 
+	draw_line(38 + offset2, 173, 53 + offset2, 173, 0xFFFF); 
+	draw_line(53 + offset2, 160, 53 + offset2, 173, 0xFFFF); 
+	draw_line(38 + offset2, 173, 53 + offset2, 190, 0xFFFF); 
 	
 	// E
-	draw_line(56, 160, 56, 190, 0xFFFF);
-	draw_line(56, 160, 68, 160, 0xFFFF);
-	draw_line(56, 190, 68, 190, 0xFFFF);
-	draw_line(56, 175, 62, 175, 0xFFFF);
-
+	draw_line(56 + offset2, 160, 56 + offset2, 190, 0xFFFF);
+	draw_line(56 + offset2, 160, 68 + offset2, 160, 0xFFFF);
+	draw_line(56 + offset2, 190, 68 + offset2, 190, 0xFFFF);
+	draw_line(56 + offset2, 175, 62 + offset2, 175, 0xFFFF);
 	
+	// S
+	draw_line(71 + offset2, 160, 83 + offset2, 160, 0xFFFF);
+	draw_line(71 + offset2, 190, 83 + offset2, 190, 0xFFFF);
+	draw_line(71 + offset2, 160, 71 + offset2, 175, 0xFFFF);
+	draw_line(71 + offset2, 175, 83 + offset2, 175, 0xFFFF);
+	draw_line(83 + offset2, 175, 83 + offset2, 190, 0xFFFF);
+	
+	// S
+	draw_line(86 + offset2, 160, 98 + offset2, 160, 0xFFFF);
+	draw_line(86 + offset2, 190, 98 + offset2, 190, 0xFFFF);
+	draw_line(86 + offset2, 160, 86 + offset2, 175, 0xFFFF);
+	draw_line(86 + offset2, 175, 98 + offset2, 175, 0xFFFF);
+	draw_line(98 + offset2, 175, 98 + offset2, 190, 0xFFFF);
+	
+	// [X]
+	draw_line(111 + offset2, 158, 120 + offset2, 158, 0xFFFF); 
+	draw_line(111 + offset2, 158, 111 + offset2, 192, 0xFFFF);
+	draw_line(111 + offset2, 192, 120 + offset2, 192, 0xFFFF); 
+	
+	draw_line(123 + offset2, 163, 135 + offset2, 187, 0xFFFF);
+	draw_line(135 + offset2, 163, 123 + offset2, 187, 0xFFFF);
+	
+	draw_line(138 + offset2, 158, 147 + offset2, 158, 0xFFFF);
+	draw_line(138 + offset2, 192, 147 + offset2, 192, 0xFFFF);
+	draw_line(147 + offset2, 158, 147 + offset2, 192, 0xFFFF);
+
+	// T
+	draw_line(157 + offset2, 160, 172 + offset2, 160, 0xFFFF);
+	draw_line(164 + offset2, 160, 164 + offset2, 190, 0xFFFF);
+	
+	// O 
+	draw_line(175 + offset2, 160, 187 + offset2, 160, 0xFFFF);
+	draw_line(175 + offset2, 190, 187 + offset2, 190, 0xFFFF);
+	draw_line(175 + offset2, 160, 175 + offset2, 190, 0xFFFF);
+	draw_line(187 + offset2, 160, 187 + offset2, 190, 0xFFFF);
+	
+	// P
+	draw_line(200 + offset2, 160, 215 + offset2, 160, 0xFFFF); 
+	draw_line(200 + offset2, 160, 200 + offset2, 190, 0xFFFF); 
+	draw_line(200 + offset2, 173, 215 + offset2, 173, 0xFFFF); 
+	draw_line(215 + offset2, 160, 215 + offset2, 173, 0xFFFF); 
+	
+	// L
+	draw_line(218 + offset2, 160, 218 + offset2, 190, 0xFFFF);
+	draw_line(218 + offset2, 190, 230 + offset2, 190, 0xFFFF);
+	
+	// A
+	draw_line(233 + offset2, 160, 245 + offset2, 160, 0xFFFF);
+	draw_line(233 + offset2, 175, 245 + offset2, 175, 0xFFFF);
+	draw_line(233 + offset2, 160, 233 + offset2, 190, 0xFFFF);
+	draw_line(245 + offset2, 160, 245 + offset2, 190, 0xFFFF);
+	
+	// Y 
+	draw_line(248 + offset2, 160, 255 + offset2, 175, 0xFFFF);
+	draw_line(261 + offset2, 160, 255 + offset2, 175, 0xFFFF);
+	draw_line(255 + offset2, 175, 255 + offset2, 190, 0xFFFF);
 }
