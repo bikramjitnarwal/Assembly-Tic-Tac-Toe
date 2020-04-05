@@ -679,7 +679,7 @@ void draw_player_O(int boardIndex){
 }
 
 void initial_screen(){
-	int offset = 20. offset2 = 15;
+	int offset = 20, offset2 = 15;
 	
 	for (int x = 0; x < 320; x++){
 		for (int y = 0; y < 240; y++){
