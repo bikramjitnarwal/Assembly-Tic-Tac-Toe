@@ -42,8 +42,7 @@ int main(void) {
     pixel_buffer_start = *pixel_ctrl_ptr;
 	
 	clear_screen();
-	draw_board();
-	draw_selection_box(selection_x, selection_y, 0xF800);
+	initial_screen();
 	
 	disable_A9_interrupts(); // disable interrupts in the A9 processor
 	set_A9_IRQ_stack(); // initialize the stack pointer for IRQ mode
@@ -207,6 +206,12 @@ void keyboard_ISR(void) {
 		byte0 = (PS2_data & 0xFF); //data in LSB	
 		*(LED_ptr) = 0x20;
 	
+		if(byte0 == 0x22){  //X, start game
+			clear_screen();
+			draw_board();
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
 		if(byte0 == 0x1D){  //UP, W
 			// Erase currently drawn selection box by drawing it black
 			draw_selection_box(selection_x, selection_y, 0x0000);
@@ -263,7 +268,7 @@ void keyboard_ISR(void) {
 			draw_selection_box(selection_x, selection_y, 0xF800);
 		}
 
-		if(byte0 == 0x29){  //Clears Screen, SpaceBar 
+		if(byte0 == 0x29){  //Restart Game, SpaceBar 
 			clear_screen(0,0,0x00); 
 			draw_board();
 						
