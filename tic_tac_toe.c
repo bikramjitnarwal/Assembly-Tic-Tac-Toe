@@ -19,17 +19,21 @@ void draw_player(int boardIndex);
 void draw_player_X(int boardIndex);
 void draw_player_O(int boardIndex);
 void initial_screen();
+int check_winner();
 
 // Global variables
 int selection_x;
 int selection_y;
 short int colour = 0x0000;
-char Turn = 'X';
+char Turn;
+// 0 means empty, 1 means there is an X, 2 means there is an O
+int board[9]; 
 volatile int pixel_buffer_start; // global variable, to draw 
 
 
 int main(void) {
-
+	Turn = 'X';
+	
 	// This is the top left corner of the first box
 	// Red selection box starts here initially
 	selection_x = 25;
@@ -270,8 +274,12 @@ void keyboard_ISR(void) {
 		}
 
 		if(byte0 == 0x29){  //Restart Game, SpaceBar 
-			clear_screen(0,0,0x00); 
+			clear_screen(0,0,0x0000); 
 			draw_board();
+			
+			Turn = 'X';
+			memset(board, 0, 9);
+
 						
 			// Reinitialize selection box to the top left box
 			selection_x = 25;
@@ -397,18 +405,41 @@ void keyboard_ISR(void) {
 				boardIndex = 9; 
 			}
 			
-			// draw player's character 
-			draw_player(boardIndex);
-			
-			// check winner
-			
-			// Switch turn 
-			if (Turn == 'X'){
-				Turn = 'O';
+			// Only draw if box is empty
+			if (board[boardIndex - 1] == 0){
+				
+				// update array	
+				// 0 means empty, 1 means there is an X, 2 means there is an O
+				if (Turn == 'X'){
+					board[boardIndex - 1] = 1;
+				} else {
+					board[boardIndex - 1] = 2;
+				}
+				
+				// draw player
+				draw_player(boardIndex);
+				
+				// check winner
+				int winner = check_winner();
+				
+				// No winner
+				if (winner == 0){
+					// Switch turn 
+					if (Turn == 'X'){
+						Turn = 'O';
+					} else {
+						Turn = 'X';
+					}
+					
+				// X wins
+				} else if (winner == 1){
+					// show winner status & prompt new game
+					
+				// O wins
+				} else if (winner == 2){
+					// show winner status & prompt new game
+				}
 			}
-			else 
-				Turn = 'X';
-
 		}
 		
 		int i = 0;
@@ -570,6 +601,14 @@ void draw_player(int boardIndex){
 	} else {
 		draw_player_O(boardIndex);
 	}
+}
+
+int check_winner(){
+	// use board array, it is a global variable
+	// return 0 if no winner
+	// return 1 if X is winner
+	// return 2 is O is winner 
+	// if there is a winner, draw a line in this function
 }
 
 void draw_player_X(int boardIndex){
