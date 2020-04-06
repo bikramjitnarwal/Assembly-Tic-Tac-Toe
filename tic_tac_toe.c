@@ -15,7 +15,7 @@ void draw_selection_box(int x, int y, short int selection_colour);
 void swap(int *first, int *second);
 void draw_board(void);
 void write_text(int x, int y, char * text_ptr);
-void draw_player(int boardIndex, char Turn);
+void draw_player(int boardIndex);
 void draw_player_X(int boardIndex);
 void draw_player_O(int boardIndex);
 void initial_screen();
@@ -24,6 +24,7 @@ void initial_screen();
 int selection_x;
 int selection_y;
 short int colour = 0x0000;
+char Turn = 'X';
 volatile int pixel_buffer_start; // global variable, to draw 
 
 
@@ -372,6 +373,42 @@ void keyboard_ISR(void) {
 		if(byte0 == 0x5A){ //User hit enter
 			// do something (draw x/o, check winner, etc..)
 			// Use selection coords to check which box user is in and draw there
+			
+			// check which board index 
+			int boardIndex = 0; 
+			
+			if (selection_x == 25 & selection_y == 25){
+				boardIndex = 1; 
+			} else if (selection_x == 115 & selection_y == 25){
+				boardIndex = 2; 
+			} else if (selection_x == 205 & selection_y == 25){
+				boardIndex = 3; 
+			} else if (selection_x == 25 & selection_y == 88){
+				boardIndex = 4; 
+			} else if (selection_x == 115 & selection_y == 88){
+				boardIndex = 5; 
+			} else if (selection_x == 205 & selection_y == 88){
+				boardIndex = 6; 
+			} else if (selection_x == 25 & selection_y == 151){
+				boardIndex = 7; 
+			} else if (selection_x == 115 & selection_y == 151){
+				boardIndex = 8; 
+			} else if (selection_x == 205 & selection_y == 151){
+				boardIndex = 9; 
+			}
+			
+			// draw player's character 
+			draw_player(boardIndex);
+			
+			// check winner
+			
+			// Switch turn 
+			if (Turn == 'X'){
+				Turn = 'O';
+			}
+			else 
+				Turn = 'X';
+
 		}
 		
 		int i = 0;
@@ -527,7 +564,7 @@ void draw_selection_box(int x, int y, short int selection_colour) {
 	draw_line(x, y + 63, x, y, selection_colour);
 }
 
-void draw_player(int boardIndex, char Turn){
+void draw_player(int boardIndex){
 	if(Turn == 'X'){
 		draw_player_X(boardIndex);
 	} else {
