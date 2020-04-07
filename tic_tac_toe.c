@@ -225,8 +225,12 @@ void keyboard_ISR(void) {
 	
 		if(byte0 == 0x22){  //X, start game
 			clear_screen();
+			clear_text();
 			draw_board();
 			draw_selection_box(selection_x, selection_y, 0xF800);
+			
+			char player_status[150] = "                    Player X's Turn!                      \0";
+			write_text(14, 55, player_status);
 		}
 		
 		if(byte0 == 0x1D){  //UP, W
@@ -299,6 +303,10 @@ void keyboard_ISR(void) {
 			selection_x = 25;
 			selection_y = 25;
 			draw_selection_box(selection_x, selection_y, 0xF800);
+			
+			char player_status[150] = "                    Player X's Turn!                      \0";
+			write_text(14, 55, player_status);
+
 		}  
 		
 		if(byte0 == 0x16){ //Select Box 1 
@@ -392,6 +400,72 @@ void keyboard_ISR(void) {
 			draw_selection_box(selection_x, selection_y, 0xF800);
 		}
 		
+		if(byte0 == 0x33){//H-Help Screen
+			clear_screen();			
+			clear_text();
+			
+			char title[100] = "Tic-Tac-Toe Help Screen\0";
+			write_text(28, 3, title);
+			
+			char instructions[100] = "Try to get three in a row to win the game!\0";
+			write_text(8, 7, instructions);
+			
+			char controls[20] = "Game Controls: \0";
+			write_text(8, 10, controls);
+			
+			char number_keys[70] = "[1]-[9]: Select board index\0";
+			write_text(8, 13, number_keys);
+			
+			char selection_key_a[70] = "[A]: Move red selection box left\0";
+			write_text(8, 15, selection_key_a);
+			
+			char selection_key_d[70] = "[D]: Move red selection box right\0";
+			write_text(8, 17, selection_key_d);
+			
+			char selection_key_w[70] = "[W]: Move red selection box up\0";
+			write_text(8, 19, selection_key_w);
+			
+			char selection_key_s[70] = "[S]: Move red selection box down\0";
+			write_text(8, 21, selection_key_s);	
+			
+			char enter[70] = "[enter]: Place piece/ Make a move\0";
+			write_text(8, 23, enter);
+			
+			char help[70] = "[H]: Help screen\0";
+			write_text(8, 25, help);
+			
+			char spacebar[70] = "[spacebar]: Restart game\0";
+			write_text(8, 27, spacebar);	
+			
+			char resume[70] = "Press [ESC] to resume the game\0";
+			write_text(8, 30, resume);	
+		}
+		
+		if(byte0 == 0x76){//Escape - Resume game
+			clear_screen();
+			clear_text();
+			draw_board();
+			draw_selection_box(selection_x, selection_y, 0xF800);
+			
+			for (int i = 0; i < 9; i++){
+				if (board[i] == 1){
+					draw_player_X(i+1);
+				} else if (board[i] == 2){
+					draw_player_O(i+1);
+				}
+			}
+			
+			if (Turn == 'X'){
+				Turn = 'O';
+				char player_status[150] = "                    Player O's Turn!                      \0";
+				write_text(14, 55, player_status);
+			} else {
+				Turn = 'X';
+				char player_status[150] = "                    Player X's Turn!                      \0";
+				write_text(14, 55, player_status);
+			}
+		}
+		
 		if(byte0 == 0x5A){ //User hit enter
 			// do something (draw x/o, check winner, etc..)
 			// Use selection coords to check which box user is in and draw there
@@ -441,9 +515,15 @@ void keyboard_ISR(void) {
 					// Switch turn 
 					if (Turn == 'X'){
 						Turn = 'O';
+						char player_status[150] = "                    Player O's Turn!                      \0";
+						write_text(14, 55, player_status);
 					} else {
 						Turn = 'X';
+						char player_status[150] = "                    Player X's Turn!                      \0";
+						write_text(14, 55, player_status);
 					}
+					
+					
 					
 				// X wins
 				} else if (winner == 1){
@@ -597,6 +677,9 @@ void draw_board(void){
 	// Bottom right box 
 	char bottom_right_box_number[10] = "9\0";
 	write_text(53, 39, bottom_right_box_number);
+	
+	char winner_status[50] = "Press [H] for help screen.";
+	write_text(5, 57, winner_status);
 }
 
 void write_text(int x, int y, char * text_ptr) {
@@ -956,6 +1039,9 @@ void initial_screen(){
 	draw_line(248 + offset2, 160, 255 + offset2, 175, 0xFFFF);
 	draw_line(261 + offset2, 160, 255 + offset2, 175, 0xFFFF);
 	draw_line(255 + offset2, 175, 255 + offset2, 190, 0xFFFF);
+	
+	char developers[150] = "By Bikramjit Narwal & Nurin Fazil\0";
+	write_text(25, 53, developers);
 }
 
 // Functions checks every possibly win (3 in a row) for either player and returns the winner
