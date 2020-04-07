@@ -939,3 +939,41 @@ void initial_screen(){
 	draw_line(261 + offset2, 160, 255 + offset2, 175, 0xFFFF);
 	draw_line(255 + offset2, 175, 255 + offset2, 190, 0xFFFF);
 }
+
+// Functions checks every possibly win (3 in a row) for either player and returns the winner
+int check_winner(){
+    for(int i = 0; i < 3; i++){
+        if(1 == board[i + 0] && 1 == board[i + 3] && 1 == board[i + 6]){
+            return 1;
+        }
+
+        if(2 == board[i + 0] && 2 == board[i + 3] && 2 == board[i + 6]){
+            return 2;
+        }
+
+        if(1 == board[i * 3 + 0] && 1 == board[i * 3 + 1] && 1 == board[i * 3 + 2]){
+            return 1;
+        }
+
+        if(2 == board[i * 3 + 0] && 2 == board[i * 3 + 1] && 2 == board[i * 3 + 2]){
+            return 2;
+        }
+    }
+
+    if(1 == board[0] && 1 == board[4] && 1 == board[8]){
+        return 1;
+    }
+
+    if(2 == board[0] && 2 == board[4] && 2 == board[8]){
+        return 2;
+    }
+    
+    if(1 == board[2] && 1 == board[4] && 1 == board[6]){
+        return 1;
+    }
+    
+    if (2 == board[2] && 2 == board[4] && 2 == board[6]){
+        return 2;
+    }
+    return 0;
+}
