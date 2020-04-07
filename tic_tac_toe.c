@@ -603,14 +603,6 @@ void draw_player(int boardIndex){
 	}
 }
 
-int check_winner(){
-	// use board array, it is a global variable
-	// return 0 if no winner
-	// return 1 if X is winner
-	// return 2 is O is winner 
-	// if there is a winner, draw a line in this function
-}
-
 void draw_player_X(int boardIndex){
 	// left diagonal coordinates
 	int initial_left_X0 = 29, initial_left_Y0 = 29, initial_left_X1 = 111, initial_left_Y1 = 84;
