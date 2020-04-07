@@ -20,6 +20,7 @@ void draw_player_X(int boardIndex);
 void draw_player_O(int boardIndex);
 void initial_screen();
 int check_winner();
+void clear_text ();
 
 // Global variables
 int selection_x;
@@ -32,6 +33,7 @@ volatile int pixel_buffer_start; // global variable, to draw
 
 
 int main(void) {
+	clear_text();
 	Turn = 'X';
 	
 	// This is the top left corner of the first box
@@ -185,6 +187,16 @@ void clear_screen (){
 	}
 }
 
+void clear_text (){
+	int y,x;
+	for(x=0;x<80;x++){
+		for(y=0;y<60;y++){
+			char clear[1] = " \0";
+			write_text(x, y, clear);
+		}
+	}
+}
+
 void keyboard_ISR(void) {
 
 	volatile int * PS2_ptr = (int *)0xFF200100; // Points to PS2 Base
@@ -278,9 +290,11 @@ void keyboard_ISR(void) {
 			draw_board();
 			
 			Turn = 'X';
-			memset(board, 0, 9);
-
-						
+			memset(board, 0, sizeof(board));
+			
+			char clear_winner_status[150] = "                                                     \0";                             
+			write_text(14, 55, clear_winner_status);
+			
 			// Reinitialize selection box to the top left box
 			selection_x = 25;
 			selection_y = 25;
@@ -433,11 +447,23 @@ void keyboard_ISR(void) {
 					
 				// X wins
 				} else if (winner == 1){
+					// hide selection box
+					draw_selection_box(selection_x, selection_y, 0x0000);
+					draw_board();
+					
 					// show winner status & prompt new game
+					char winner_status[150] = "Player X Wins! Press [spacebar] to start a new game.\0";
+					write_text(14, 55, winner_status);
 					
 				// O wins
 				} else if (winner == 2){
+					// hide selection box
+					draw_selection_box(selection_x, selection_y, 0x0000);
+					draw_board();
+					
 					// show winner status & prompt new game
+					char winner_status[150] = "Player O Wins! Press [spacebar] to start a new game.\0";
+					write_text(14, 55, winner_status);
 				}
 			}
 		}
@@ -936,89 +962,121 @@ void initial_screen(){
 int check_winner(){
 	// First Column Win
     if(1 == board[0] && 1 == board[3] && 1 == board[6]){
-		draw_line(70, 25, 70, 214, 0xFFFF);
+		draw_line(69, 25, 69, 214, 0xF800);
+		draw_line(70, 25, 70, 214, 0xF800);
+		draw_line(71, 25, 71, 214, 0xF800);
         return 1;
     }
 
     if(2 == board[0] && 2 == board[3] && 2 == board[6]){
-		draw_line(70, 25, 70, 214, 0xFFFF);
+		draw_line(69, 25, 69, 214, 0xF800);
+		draw_line(70, 25, 70, 214, 0xF800);
+		draw_line(71, 25, 71, 214, 0xF800);
         return 2;
     }
 	
 	// Second Column Win 
     if(1 == board[1] && 1 == board[4] && 1 == board[7]){
-		draw_line(160, 25, 160, 214, 0xFFFF);
+		draw_line(159, 25, 159, 214, 0xF800);
+		draw_line(160, 25, 160, 214, 0xF800);
+		draw_line(161, 25, 161, 214, 0xF800);
         return 1;
     }
 
     if(2 == board[1] && 2 == board[4] && 2 == board[7]){
-		draw_line(160, 25, 160, 214, 0xFFFF);
+		draw_line(159, 25, 159, 214, 0xF800);
+		draw_line(160, 25, 160, 214, 0xF800);
+		draw_line(161, 25, 161, 214, 0xF800);
         return 2;
     }
 	
 	// Third column win 
 	if(1 == board[2] && 1 == board[5] && 1 == board[8]){
-		draw_line(250, 25, 250, 214, 0xFFFF);
+		draw_line(249, 25, 249, 214, 0xF800);
+		draw_line(250, 25, 250, 214, 0xF800);
+		draw_line(251, 25, 251, 214, 0xF800);
         return 1;
     }
 
     if(2 == board[2] && 2 == board[5] && 2 == board[8]){
-		draw_line(250, 25, 250, 214, 0xFFFF);
-        return 2;
+		draw_line(249, 25, 249, 214, 0xF800);
+		draw_line(250, 25, 250, 214, 0xF800);
+		draw_line(251, 25, 251, 214, 0xF800);        
+		return 2;
     }
 	
 	// First row Win
     if(1 == board[0] && 1 == board[1] && 1 == board[2]){
-		draw_line(25, 56, 295, 56, 0xFFFF);
+		draw_line(25, 55, 295, 55, 0xF800);
+		draw_line(25, 56, 295, 56, 0xF800);
+		draw_line(25, 57, 295, 57, 0xF800);
         return 1;
     }
 
     if(2 == board[0] && 2 == board[1] && 2 == board[2]){
-		draw_line(25, 56, 295, 56, 0xFFFF);
+		draw_line(25, 55, 295, 55, 0xF800);
+		draw_line(25, 56, 295, 56, 0xF800);
+		draw_line(25, 57, 295, 57, 0xF800);
         return 2;
     }
 	
 	// Second row Win 
     if(1 == board[3] && 1 == board[4] && 1 == board[5]){
-		draw_line(25, 119, 295, 119, 0xFFFF);
+		draw_line(25, 118, 295, 118, 0xF800);
+		draw_line(25, 119, 295, 119, 0xF800);
+		draw_line(25, 120, 295, 120, 0xF800);
         return 1;
     }
 
     if(2 == board[3] && 2 == board[4] && 2 == board[5]){
-		draw_line(25, 119, 295, 119, 0xFFFF);
+		draw_line(25, 118, 295, 118, 0xF800);
+		draw_line(25, 119, 295, 119, 0xF800);
+		draw_line(25, 120, 295, 120, 0xF800);
         return 2;
     }
 	
 	// Third row win 
 	if(1 == board[6] && 1 == board[7] && 1 == board[8]){
-		draw_line(25, 182, 295, 182, 0xFFFF);
+		draw_line(25, 181, 295, 181, 0xF800);
+		draw_line(25, 182, 295, 182, 0xF800);
+		draw_line(25, 183, 295, 183, 0xF800);
         return 1;
     }
 
     if(2 == board[6] && 2 == board[7] && 2 == board[8]){
-		draw_line(25, 182, 295, 182, 0xFFFF);
+		draw_line(25, 181, 295, 181, 0xF800);
+		draw_line(25, 182, 295, 182, 0xF800);
+		draw_line(25, 183, 295, 183, 0xF800);
         return 2;
     }
 	
 	// Left diagonal win
     if(1 == board[0] && 1 == board[4] && 1 == board[8]){
-		draw_line(25, 25, 295, 214, 0xFFFF);
+		draw_line(24, 24, 294, 213, 0xF800);
+		draw_line(25, 25, 295, 214, 0xF800);
+		draw_line(26, 26, 296, 215, 0xF800);
         return 1;
     }
 
     if(2 == board[0] && 2 == board[4] && 2 == board[8]){
-		draw_line(25, 25, 295, 214, 0xFFFF);
+		draw_line(24, 24, 294, 213, 0xF800);
+		draw_line(25, 25, 295, 214, 0xF800);
+		draw_line(26, 26, 296, 215, 0xF800);
         return 2;
     }
     
 	// Right diagonal win
     if(1 == board[2] && 1 == board[4] && 1 == board[6]){
-		draw_line(295, 25, 25, 214, 0xFFFF);
+		draw_line(294, 24, 24, 213, 0xF800);
+		draw_line(295, 25, 25, 214, 0xF800);
+		draw_line(296, 26, 26, 215, 0xF800);
         return 1;
     }
     
     if (2 == board[2] && 2 == board[4] && 2 == board[6]){
-		draw_line(295, 25, 25, 214, 0xFFFF);
+		draw_line(294, 24, 24, 213, 0xF800);
+		draw_line(295, 25, 25, 214, 0xF800);
+		draw_line(296, 26, 26, 215, 0xF800);
         return 2;
     }
     return 0;
