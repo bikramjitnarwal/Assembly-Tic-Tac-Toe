@@ -942,37 +942,91 @@ void initial_screen(){
 
 // Functions checks every possibly win (3 in a row) for either player and returns the winner
 int check_winner(){
-    for(int i = 0; i < 3; i++){
-        if(1 == board[i + 0] && 1 == board[i + 3] && 1 == board[i + 6]){
-            return 1;
-        }
-
-        if(2 == board[i + 0] && 2 == board[i + 3] && 2 == board[i + 6]){
-            return 2;
-        }
-
-        if(1 == board[i * 3 + 0] && 1 == board[i * 3 + 1] && 1 == board[i * 3 + 2]){
-            return 1;
-        }
-
-        if(2 == board[i * 3 + 0] && 2 == board[i * 3 + 1] && 2 == board[i * 3 + 2]){
-            return 2;
-        }
+	// First Column Win
+    if(1 == board[0] && 1 == board[3] && 1 == board[6]){
+		draw_line(70, 25, 70, 214, 0xFFFF);
+        return 1;
     }
 
+    if(2 == board[0] && 2 == board[3] && 2 == board[6]){
+		draw_line(70, 25, 70, 214, 0xFFFF);
+        return 2;
+    }
+	
+	// Second Column Win 
+    if(1 == board[1] && 1 == board[4] && 1 == board[7]){
+		draw_line(160, 25, 160, 214, 0xFFFF);
+        return 1;
+    }
+
+    if(2 == board[1] && 2 == board[4] && 2 == board[7]){
+		draw_line(160, 25, 160, 214, 0xFFFF);
+        return 2;
+    }
+	
+	// Third column win 
+	if(1 == board[2] && 1 == board[5] && 1 == board[8]){
+		draw_line(250, 25, 250, 214, 0xFFFF);
+        return 1;
+    }
+
+    if(2 == board[2] && 2 == board[5] && 2 == board[8]){
+		draw_line(250, 25, 250, 214, 0xFFFF);
+        return 2;
+    }
+	
+	// First row Win
+    if(1 == board[0] && 1 == board[1] && 1 == board[2]){
+		draw_line(25, 56, 295, 56, 0xFFFF);
+        return 1;
+    }
+
+    if(2 == board[0] && 2 == board[1] && 2 == board[2]){
+		draw_line(25, 56, 295, 56, 0xFFFF);
+        return 2;
+    }
+	
+	// Second row Win 
+    if(1 == board[3] && 1 == board[4] && 1 == board[5]){
+		draw_line(25, 119, 295, 119, 0xFFFF);
+        return 1;
+    }
+
+    if(2 == board[3] && 2 == board[4] && 2 == board[5]){
+		draw_line(25, 119, 295, 119, 0xFFFF);
+        return 2;
+    }
+	
+	// Third row win 
+	if(1 == board[6] && 1 == board[7] && 1 == board[8]){
+		draw_line(25, 182, 295, 182, 0xFFFF);
+        return 1;
+    }
+
+    if(2 == board[6] && 2 == board[7] && 2 == board[8]){
+		draw_line(25, 182, 295, 182, 0xFFFF);
+        return 2;
+    }
+	
+	// Left diagonal win
     if(1 == board[0] && 1 == board[4] && 1 == board[8]){
+		draw_line(25, 25, 295, 214, 0xFFFF);
         return 1;
     }
 
     if(2 == board[0] && 2 == board[4] && 2 == board[8]){
+		draw_line(25, 25, 295, 214, 0xFFFF);
         return 2;
     }
     
+	// Right diagonal win
     if(1 == board[2] && 1 == board[4] && 1 == board[6]){
+		draw_line(295, 25, 25, 214, 0xFFFF);
         return 1;
     }
     
     if (2 == board[2] && 2 == board[4] && 2 == board[6]){
+		draw_line(295, 25, 25, 214, 0xFFFF);
         return 2;
     }
     return 0;
