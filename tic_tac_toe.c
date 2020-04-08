@@ -21,11 +21,13 @@ void draw_player_O(int boardIndex);
 void initial_screen();
 int check_winner();
 void clear_text ();
+void checkforStalemate();
 
 // Global variables
 int selection_x;
 int selection_y;
 short int colour = 0x0000;
+bool isStalemate = false;
 char Turn;
 // 0 means empty, 1 means there is an X, 2 means there is an O
 int board[9]; 
@@ -228,7 +230,7 @@ void keyboard_ISR(void) {
 			clear_text();
 			draw_board();
 			draw_selection_box(selection_x, selection_y, 0xF800);
-			
+			isStalemate = false;
 			char player_status[150] = "                    Player X's Turn!                      \0";
 			write_text(14, 55, player_status);
 		}
@@ -306,6 +308,7 @@ void keyboard_ISR(void) {
 			
 			char player_status[150] = "                    Player X's Turn!                      \0";
 			write_text(14, 55, player_status);
+			isStalemate = false;
 
 		}  
 		
@@ -407,7 +410,7 @@ void keyboard_ISR(void) {
 			char title[100] = "Tic-Tac-Toe Help Screen\0";
 			write_text(28, 3, title);
 			
-			char instructions[100] = "Try to get three in a row to win the game!\0";
+			char instructions[100] = "Try to get consecutive boxes to win the game!\0";
 			write_text(8, 7, instructions);
 			
 			char controls[20] = "Game Controls: \0";
@@ -523,8 +526,6 @@ void keyboard_ISR(void) {
 						write_text(14, 55, player_status);
 					}
 					
-					
-					
 				// X wins
 				} else if (winner == 1){
 					// hide selection box
@@ -543,6 +544,14 @@ void keyboard_ISR(void) {
 					
 					// show winner status & prompt new game
 					char winner_status[150] = "Player O Wins! Press [spacebar] to start a new game.\0";
+					write_text(14, 55, winner_status);
+				} else if (winner == 3){
+					// hide selection box
+					draw_selection_box(selection_x, selection_y, 0x0000);
+					draw_board();
+					
+					// show winner status & prompt new game
+					char winner_status[150] = "It's a tie! Press [spacebar] to start a new game.\0";
 					write_text(14, 55, winner_status);
 				}
 			}
@@ -1165,5 +1174,23 @@ int check_winner(){
 		draw_line(296, 26, 26, 215, 0xF800);
         return 2;
     }
-    return 0;
+	
+	checkforStalemate();
+	if (isStalemate){
+		return 3;
+	}
+	
+	return 0;
+}
+
+// Checks if every position has been filled
+void checkforStalemate(){
+    for(int index = 0; index < 9; index++){
+        // 0 means no one has claimed that position
+        if(board[index] == 0){
+            isStalemate = false;
+			return;
+        }
+    }
+	isStalemate = true;
 }
