@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-void clear_screen ();
+// Functions related to keyboard interrupts set-up
 void disable_A9_interrupts(void);
 void set_A9_IRQ_stack(void);
 void config_GIC(void);
@@ -9,16 +9,21 @@ void config_KEYs(void);
 void enable_A9_interrupts(void);
 void keyboard_ISR(void);
 void config_interrupt(int, int);
+
+// Functions for drawing objects onto the screen
+void draw_player(int boardIndex);
+void draw_player_X(int boardIndex);
+void draw_player_O(int boardIndex);
+void initial_screen();
 void plot_pixel(int x, int y, short int line_color);
 void draw_line(int x0, int y0, int x1, int y1, short int line_color);
 void draw_selection_box(int x, int y, short int selection_colour);
 void swap(int *first, int *second);
 void draw_board(void);
 void write_text(int x, int y, char * text_ptr);
-void draw_player(int boardIndex);
-void draw_player_X(int boardIndex);
-void draw_player_O(int boardIndex);
-void initial_screen();
+void clear_screen ();
+
+// Functions which handle the tic-tac-toe logic
 int check_winner();
 void clear_text ();
 void checkforStalemate();
@@ -26,16 +31,15 @@ void checkforStalemate();
 // Global variables
 int selection_x;
 int selection_y;
-short int colour = 0x0000;
 bool isStalemate = false;
 char Turn;
-// 0 means empty, 1 means there is an X, 2 means there is an O
 int board[9]; 
 volatile int pixel_buffer_start; // global variable, to draw 
 
-
 int main(void) {
 	clear_text();
+	
+	// First turn goes to X
 	Turn = 'X';
 	
 	// This is the top left corner of the first box
@@ -43,8 +47,6 @@ int main(void) {
 	selection_x = 25;
 	selection_y = 25;
 	
-	/* create a message to be displayed on the video and LCD displays */
-
 	volatile int * pixel_ctrl_ptr = (int *)0xFF203020;
     
 	/* Read location of the pixel buffer from the pixel buffer controller */
@@ -60,14 +62,13 @@ int main(void) {
 	enable_A9_interrupts(); // enable interrupts in the A9 processor
 	
 	while (1); // wait for an interrupt
-
 }
 
 
-/* setup the KEY interrupts in the FPGA */
+/* setup the PS/2 interrupts in the FPGA */
 void config_KEYs() {
-	volatile int * PS2_ptr = (int *) 0xFF200100; // pushbutton KEY base address
-	*(PS2_ptr + 1) = 0x00000001; // enable interrupts for the two KEYs
+	volatile int * PS2_ptr = (int *) 0xFF200100; // PS/2 base address
+	*(PS2_ptr + 1) = 0x00000001; // set RE to 1 to enable interrupts
 }
 
 // Define the IRQ exception handler
@@ -90,23 +91,21 @@ void __attribute__((interrupt)) __cs3_reset(void) {
 void __attribute__((interrupt)) __cs3_isr_undef(void) {
 	while (1);
 }
+
 void __attribute__((interrupt)) __cs3_isr_swi(void) {
 	while (1);
 }
+
 void __attribute__((interrupt)) __cs3_isr_pabort(void) {
 	while (1);
 }
+
 void __attribute__((interrupt)) __cs3_isr_dabort(void) {
 	while (1);
 }
+
 void __attribute__((interrupt)) __cs3_isr_fiq(void) {
 	while (1);
-}
-
-// Turn off interrupts in the ARM processor
-void disable_A9_interrupts(void) {
-	int status = 0b11010011;
-	asm("msr cpsr, %[ps]" : : [ps] "r"(status));
 }
 
 //Initialize the banked stack pointer register for IRQ mode
@@ -128,6 +127,12 @@ void set_A9_IRQ_stack(void) {
 */
 void enable_A9_interrupts(void) {
 	int status = 0b01010011;
+	asm("msr cpsr, %[ps]" : : [ps] "r"(status));
+}
+
+// Turn off interrupts in the ARM processor
+void disable_A9_interrupts(void) {
+	int status = 0b11010011;
 	asm("msr cpsr, %[ps]" : : [ps] "r"(status));
 }
 
@@ -180,6 +185,7 @@ void plot_pixel(int x, int y, short int line_color)
     *(short int *)(pixel_buffer_start + (y << 10) + (x << 1)) = line_color;
 }
 
+// Clear screen by writing black into the address
 void clear_screen (){
 	int y,x;
 	for(x=0;x<320;x++){
@@ -189,6 +195,7 @@ void clear_screen (){
 	}
 }
 
+// Clear any text on the screen by writing " " into the address
 void clear_text (){
 	int y,x;
 	for(x=0;x<80;x++){
@@ -199,31 +206,26 @@ void clear_text (){
 	}
 }
 
+// Function which handles what to do once a keyboard interrupt is given
 void keyboard_ISR(void) {
 
 	volatile int * PS2_ptr = (int *)0xFF200100; // Points to PS2 Base
-	volatile int * LED_ptr = (int *)0xFF200000;	// Points to LED Address 
 	unsigned char byte0 = 0;
     
 	int PS2_data = *(PS2_ptr);
 	int RVALID = PS2_data & 0x8000;
 	
-	unsigned char key [4] = {0,0,0,0};
-	int readInterruptReg;
-    
 	//Read Interrupt Register
-	 readInterruptReg = *(PS2_ptr + 1 ); 
+	int readInterruptReg;
+	readInterruptReg = *(PS2_ptr + 1 ); 
 	  
 	//Clear Interrupt 
 	*(PS2_ptr+1) = readInterruptReg; 
 
-	*(LED_ptr) = 0x40;
-	
 	// when RVALID is 1, there is data 
 	if (RVALID != 0){
                
 		byte0 = (PS2_data & 0xFF); //data in LSB	
-		*(LED_ptr) = 0x20;
 	
 		if(byte0 == 0x22){  //X, start game
 			clear_screen();
@@ -291,8 +293,9 @@ void keyboard_ISR(void) {
 			draw_selection_box(selection_x, selection_y, 0xF800);
 		}
 
-		if(byte0 == 0x29){  //Restart Game, SpaceBar 
+		if(byte0 == 0x29){  //SpaceBar , Restart Game
 			clear_screen(0,0,0x0000); 
+			clear_text();
 			draw_board();
 			
 			Turn = 'X';
@@ -410,7 +413,7 @@ void keyboard_ISR(void) {
 			char title[100] = "Tic-Tac-Toe Help Screen\0";
 			write_text(28, 3, title);
 			
-			char instructions[100] = "Try to get consecutive boxes to win the game!\0";
+			char instructions[100] = "Try to get 3 consecutive boxes to win the game!\0";
 			write_text(8, 7, instructions);
 			
 			char controls[20] = "Game Controls: \0";
@@ -469,10 +472,7 @@ void keyboard_ISR(void) {
 			}
 		}
 		
-		if(byte0 == 0x5A){ //User hit enter
-			// do something (draw x/o, check winner, etc..)
-			// Use selection coords to check which box user is in and draw there
-			
+		if(byte0 == 0x5A){ //Enter - place piece on board
 			// check which board index 
 			int boardIndex = 0; 
 			
@@ -545,37 +545,30 @@ void keyboard_ISR(void) {
 					// show winner status & prompt new game
 					char winner_status[150] = "Player O Wins! Press [spacebar] to start a new game.\0";
 					write_text(14, 55, winner_status);
+				
+				// Stalemate
 				} else if (winner == 3){
 					// hide selection box
 					draw_selection_box(selection_x, selection_y, 0x0000);
 					draw_board();
 					
-					// show winner status & prompt new game
+					// show tie status & prompt new game
 					char winner_status[150] = "It's a tie! Press [spacebar] to start a new game.\0";
 					write_text(14, 55, winner_status);
 				}
 			}
 		}
-		
-		int i = 0;
-		
+				
 		if(byte0 == 0xF0) {
 			// Check for break
-			*(LED_ptr) = 0x00;
-			for(i = 0; i < 32; ++i)
-				*(LED_ptr) ^= 0x80;
 			switch (PS2_data & 0xFF) {
 				case 0x1D:
-					key[0] = 0;
 					break;
 				case 0x1B:
-					key[1] = 0;
 					break;
 				case 0x1C:
-					key[2]= 0;
 					break;
 				case 0x23:
-					key[3]= 0;
 					break;
 				default:
 					break;
