@@ -440,12 +440,15 @@ void keyboard_ISR(void) {
 			
 			char help[70] = "[H]: Help screen\0";
 			write_text(8, 25, help);
+
+			char AI[70] = "[C]: Computer makes a move\0";
+			write_text(8, 27, AI);
 			
 			char spacebar[70] = "[spacebar]: Restart game\0";
-			write_text(8, 27, spacebar);	
+			write_text(8, 29, spacebar);	
 			
 			char resume[70] = "Press [ESC] to resume the game\0";
-			write_text(8, 30, resume);	
+			write_text(8, 31, resume);	
 		}
 		
 		if(byte0 == 0x76){ //Escape - Resume game
