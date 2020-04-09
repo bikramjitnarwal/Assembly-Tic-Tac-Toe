@@ -447,7 +447,7 @@ void keyboard_ISR(void) {
 			write_text(8, 30, resume);	
 		}
 		
-		if(byte0 == 0x76){//Escape - Resume game
+		if(byte0 == 0x76){ //Escape - Resume game
 			clear_screen();
 			clear_text();
 			draw_board();
@@ -470,6 +470,11 @@ void keyboard_ISR(void) {
 				char player_status[150] = "                    Player X's Turn!                      \0";
 				write_text(14, 55, player_status);
 			}
+		}
+
+		if (byte0 == 0x21) { //C - AI makes a move if this is clicked
+			clear_text();
+		
 		}
 		
 		if(byte0 == 0x5A){ //Enter - place piece on board
