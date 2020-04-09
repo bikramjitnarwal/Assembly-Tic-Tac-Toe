@@ -22,12 +22,12 @@ void swap(int *first, int *second);
 void draw_board(void);
 void write_text(int x, int y, char * text_ptr);
 void clear_screen();
-void AI_move();
 
 // Functions which handle the tic-tac-toe logic
 int check_winner();
 void clear_text ();
 void checkforStalemate();
+void AI_move();
 
 // Global variables
 int selection_x;
@@ -474,8 +474,56 @@ void keyboard_ISR(void) {
 		}
 
 		if (byte0 == 0x21) { //C - AI makes a move if this is clicked
-			clear_text();
+			//clear_text();
 			AI_move();
+
+			// check winner
+			int winner = check_winner();
+			
+			// No winner
+			if (winner == 0){
+				// Switch turn 
+				if (Turn == 'X'){
+					Turn = 'O';
+					char player_status[150] = "                    Player O's Turn!                      \0";
+					write_text(14, 55, player_status);
+				} else {
+					Turn = 'X';
+					char player_status[150] = "                    Player X's Turn!                      \0";
+					write_text(14, 55, player_status);
+				}
+				
+			// X wins
+			} else if (winner == 1){
+				// hide selection box
+				draw_selection_box(selection_x, selection_y, 0x0000);
+				draw_board();
+				
+				// show winner status & prompt new game
+				char winner_status[150] = "Player X Wins! Press [spacebar] to start a new game.\0";
+				write_text(14, 55, winner_status);
+				
+			// O wins
+			} else if (winner == 2){
+				// hide selection box
+				draw_selection_box(selection_x, selection_y, 0x0000);
+				draw_board();
+				
+				// show winner status & prompt new game
+				char winner_status[150] = "Player O Wins! Press [spacebar] to start a new game.\0";
+				write_text(14, 55, winner_status);
+			
+			// Stalemate
+			} else if (winner == 3){
+				// hide selection box
+				draw_selection_box(selection_x, selection_y, 0x0000);
+				draw_board();
+				
+				// show tie status & prompt new game
+				char winner_status[150] = "It's a tie! Press [spacebar] to start a new game.\0";
+				write_text(14, 55, winner_status);
+			}
+
 		}
 		
 		if(byte0 == 0x5A){ //Enter - place piece on board
@@ -1197,135 +1245,92 @@ void checkforStalemate(){
 void AI_move(){	
 	// AI can only move if there is a possible spot on the board to move 
 	if(isStalemate == false){
-		// Check whos turn it is
-		if(Turn == 'O'){
-			// It is O's turn
-			int AI_Index = board[0];
-			while(AI_Index != 0){
-				int AI_Index = board[rand() % 9];
-			}
+		srand(time(0));
+		int AI_Index = rand() % 9; // generate number from 0 to 8
+		
+		while(board[AI_Index] != 0){ // If box is full, find another box that is empty
+			AI_Index = rand() % 9;
+		}
+		
+		if(AI_Index == 0){
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
 			
-			if(AI_Index == 0){
-				board[AI_Index] = 2;
-				draw_selection_box(25, 25, 0x0000);
-				draw_board();
-				draw_selection_box(25, 25, 0xF800);
-				
-			} else if(AI_Index == 1){
-				board[AI_Index] = 2;
-				draw_selection_box(25 + 90, 25, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 90, 25, 0xF800);
-
-			} else if(AI_Index == 2){
-				board[AI_Index] = 2;
-				draw_selection_box(25 + 180, 25, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 180, 25, 0xF800);
-				
-			} else if(AI_Index == 3){
-				board[AI_Index] = 2;
-				draw_selection_box(25, 25 + 63, 0x0000);
-				draw_board();
-				draw_selection_box(25, 25 + 63, 0xF800);
-				
-			} else if(AI_Index == 4){
-				board[AI_Index] = 2;
-				draw_selection_box(25 + 90, 25 + 63, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 90, 25 + 63, 0xF800);
-				
-			} else if(AI_Index == 5){
-				board[AI_Index] = 2;
-				draw_selection_box(25 + 180, 25 + 63, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 180, 25 + 63, 0xF800);
-
-			} else if(AI_Index == 6){
-				board[AI_Index] = 2;
-				draw_selection_box(25, 25 + 126, 0x0000);
-				draw_board();
-				draw_selection_box(25, 25 + 126, 0xF800);
-				
-			} else if(AI_Index == 7){
-				board[AI_Index] = 2;
-				draw_selection_box(25 + 90, 25 + 126, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 90, 25 + 126, 0xF800);
-				
-			} else {
-				board[AI_Index] = 2;
-				draw_selection_box(25 + 180, 25 + 126, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 180, 25 + 126, 0xF800);
-			}
+			selection_x = 25;
+			selection_y = 25;
 			
-			draw_player_O(AI_Index + 1);
-			Turn = 'X';
-		} else {
-			// It is X's turn 
-			int AI_Index = board[0];
-			while(AI_Index != 0){
-				int AI_Index = board[rand() % 9];
-			}
-			
-			if(AI_Index == 0){
-				board[AI_Index] = 1;
-				draw_selection_box(25, 25, 0x0000);
-				draw_board();
-				draw_selection_box(25, 25, 0xF800);
-				
-			} else if(AI_Index == 1){
-				board[AI_Index] = 1;
-				draw_selection_box(25 + 90, 25, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 90, 25, 0xF800);
+			draw_selection_box(selection_x, selection_y, 0xF800);
 
-			} else if(AI_Index == 2){
-				board[AI_Index] = 1;
-				draw_selection_box(25 + 180, 25, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 180, 25, 0xF800);
-				
-			} else if(AI_Index == 3){
-				board[AI_Index] = 1;
-				draw_selection_box(25, 25 + 63, 0x0000);
-				draw_board();
-				draw_selection_box(25, 25 + 63, 0xF800);
-				
-			} else if(AI_Index == 4){
-				board[AI_Index] = 1;
-				draw_selection_box(25 + 90, 25 + 63, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 90, 25 + 63, 0xF800);
-				
-			} else if(AI_Index == 5){
-				board[AI_Index] = 1;
-				draw_selection_box(25 + 180, 25 + 63, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 180, 25 + 63, 0xF800);
-
-			} else if(AI_Index == 6){
-				board[AI_Index] = 1;
-				draw_selection_box(25, 25 + 126, 0x0000);
-				draw_board();
-				draw_selection_box(25, 25 + 126, 0xF800);
-				
-			} else if(AI_Index == 7){
-				board[AI_Index] = 1;
-				draw_selection_box(25 + 90, 25 + 126, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 90, 25 + 126, 0xF800);
-				
-			} else {
-				board[AI_Index] = 1;
-				draw_selection_box(25 + 180, 25 + 126, 0x0000);
-				draw_board();
-				draw_selection_box(25 + 180, 25 + 126, 0xF800);
-			}
+		} else if(AI_Index == 1){
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
 			
+			selection_x = 115;
+			selection_y = 25;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+
+		} else if(AI_Index == 2){
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 205;
+			selection_y = 25;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+			
+		} else if(AI_Index == 3){
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 25;
+			selection_y = 88;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+			
+		} else if(AI_Index == 4){
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 115;
+			selection_y = 88;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+			
+		} else if(AI_Index == 5){
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 205;
+			selection_y = 88;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+
+		} else if(AI_Index == 6){
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 25;
+			selection_y = 151;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+			
+		} else if(AI_Index == 7){
+			draw_selection_box(selection_x, selection_y, 0x0000);
+			draw_board();
+			
+			selection_x = 115;
+			selection_y = 151;
+			
+			draw_selection_box(selection_x, selection_y, 0xF800);
+		}
+		
+		if (Turn == 'X'){
+			board[AI_Index] = 1;
 			draw_player_X(AI_Index + 1);
-			Turn = 'O'; 
+		} else {
+			board[AI_Index] = 2;
+			draw_player_O(AI_Index + 1);
 		}
 	}
 }
