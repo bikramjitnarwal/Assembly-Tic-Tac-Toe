@@ -1,6 +1,6 @@
 # 243-Final-Project
 
-**Instructions **
+**Instructions**
 
 The game we implemented on CPUlator is Tic-Tac-Toe. It uses the PS/2 Keyboard to get input from the user. 
 
