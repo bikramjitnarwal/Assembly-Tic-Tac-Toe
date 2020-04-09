@@ -1194,119 +1194,140 @@ void checkforStalemate(){
 	isStalemate = true;
 }
 
-void AI_move(){
+void AI_move(){	
 	// AI can only move if there is a possible spot on the board to move 
-//	if(isStalemate == false){
-//		// Check whos turn it is
-//		if(Turn == 'O'){
-//			// It is O's turn
-//			int AI_Index = board[0];
-//			while(AI_Index != 0){
-//				int AI_Index = board[rand() % 9];
-//			}
-//			
-//			if(AI_Index == 0){
-//				draw_selection_box(25, 25, 0x0000);
-//				draw_board();
-//				draw_selection_box(25, 25, 0xF800);
-//				
-//			} else if(AI_Index == 1){
-//				draw_selection_box(25 + 90, 25, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 90, 25, 0xF800);
-//
-//			} else if(AI_Index == 2){
-//				draw_selection_box(25 + 180, 25, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 180, 25, 0xF800);
-//				
-//			} else if(AI_Index == 3){
-//				draw_selection_box(25, 25 + 63, 0x0000);
-//				draw_board();
-//				draw_selection_box(25, 25 + 63, 0xF800);
-//				
-//			} else if(AI_Index == 4){
-//				draw_selection_box(25 + 90, 25 + 63, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 90, 25 + 63, 0xF800);
-//				
-//			} else if(AI_Index == 5){
-//				draw_selection_box(25 + 180, 25 + 63, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 180, 25 + 63, 0xF800);
-//
-//			} else if(AI_Index == 6){
-//				draw_selection_box(25, 25 + 126, 0x0000);
-//				draw_board();
-//				draw_selection_box(25, 25 + 126, 0xF800);
-//				
-//			} else if(AI_Index == 7){
-//				draw_selection_box(25 + 90, 25 + 126, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 90, 25 + 126, 0xF800);
-//				
-//			} else {
-//				draw_selection_box(25 + 180, 25 + 126, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 180, 25 + 126, 0xF800);
-//			}
-//			
-//			draw_player_O(AI_Index + 1);
-//		} else {
-//			// It is X's turn 
-//			int AI_Index = board[0];
-//			while(AI_Index != 0){
-//				int AI_Index = board[rand() % 9];
-//			}
-//			
-//			if(AI_Index == 0){
-//				draw_selection_box(25, 25, 0x0000);
-//				draw_board();
-//				draw_selection_box(25, 25, 0xF800);
-//				
-//			} else if(AI_Index == 1){
-//				draw_selection_box(25 + 90, 25, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 90, 25, 0xF800);
-//
-//			} else if(AI_Index == 2){
-//				draw_selection_box(25 + 180, 25, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 180, 25, 0xF800);
-//				
-//			} else if(AI_Index == 3){
-//				draw_selection_box(25, 25 + 63, 0x0000);
-//				draw_board();
-//				draw_selection_box(25, 25 + 63, 0xF800);
-//				
-//			} else if(AI_Index == 4){
-//				draw_selection_box(25 + 90, 25 + 63, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 90, 25 + 63, 0xF800);
-//				
-//			} else if(AI_Index == 5){
-//				draw_selection_box(25 + 180, 25 + 63, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 180, 25 + 63, 0xF800);
-//
-//			} else if(AI_Index == 6){
-//				draw_selection_box(25, 25 + 126, 0x0000);
-//				draw_board();
-//				draw_selection_box(25, 25 + 126, 0xF800);
-//				
-//			} else if(AI_Index == 7){
-//				draw_selection_box(25 + 90, 25 + 126, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 90, 25 + 126, 0xF800);
-//				
-//			} else {
-//				draw_selection_box(25 + 180, 25 + 126, 0x0000);
-//				draw_board();
-//				draw_selection_box(25 + 180, 25 + 126, 0xF800);
-//			}
-//			
-//			draw_player_X(AI_Index + 1);
-//			
-//		}
+	if(isStalemate == false){
+		// Check whos turn it is
+		if(Turn == 'O'){
+			// It is O's turn
+			int AI_Index = board[0];
+			while(AI_Index != 0){
+				int AI_Index = board[rand() % 9];
+			}
+			
+			if(AI_Index == 0){
+				board[AI_Index] = 2;
+				draw_selection_box(25, 25, 0x0000);
+				draw_board();
+				draw_selection_box(25, 25, 0xF800);
+				
+			} else if(AI_Index == 1){
+				board[AI_Index] = 2;
+				draw_selection_box(25 + 90, 25, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 90, 25, 0xF800);
+
+			} else if(AI_Index == 2){
+				board[AI_Index] = 2;
+				draw_selection_box(25 + 180, 25, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 180, 25, 0xF800);
+				
+			} else if(AI_Index == 3){
+				board[AI_Index] = 2;
+				draw_selection_box(25, 25 + 63, 0x0000);
+				draw_board();
+				draw_selection_box(25, 25 + 63, 0xF800);
+				
+			} else if(AI_Index == 4){
+				board[AI_Index] = 2;
+				draw_selection_box(25 + 90, 25 + 63, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 90, 25 + 63, 0xF800);
+				
+			} else if(AI_Index == 5){
+				board[AI_Index] = 2;
+				draw_selection_box(25 + 180, 25 + 63, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 180, 25 + 63, 0xF800);
+
+			} else if(AI_Index == 6){
+				board[AI_Index] = 2;
+				draw_selection_box(25, 25 + 126, 0x0000);
+				draw_board();
+				draw_selection_box(25, 25 + 126, 0xF800);
+				
+			} else if(AI_Index == 7){
+				board[AI_Index] = 2;
+				draw_selection_box(25 + 90, 25 + 126, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 90, 25 + 126, 0xF800);
+				
+			} else {
+				board[AI_Index] = 2;
+				draw_selection_box(25 + 180, 25 + 126, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 180, 25 + 126, 0xF800);
+			}
+			
+			draw_player_O(AI_Index + 1);
+			Turn = 'X';
+		} else {
+			// It is X's turn 
+			int AI_Index = board[0];
+			while(AI_Index != 0){
+				int AI_Index = board[rand() % 9];
+			}
+			
+			if(AI_Index == 0){
+				board[AI_Index] = 1;
+				draw_selection_box(25, 25, 0x0000);
+				draw_board();
+				draw_selection_box(25, 25, 0xF800);
+				
+			} else if(AI_Index == 1){
+				board[AI_Index] = 1;
+				draw_selection_box(25 + 90, 25, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 90, 25, 0xF800);
+
+			} else if(AI_Index == 2){
+				board[AI_Index] = 1;
+				draw_selection_box(25 + 180, 25, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 180, 25, 0xF800);
+				
+			} else if(AI_Index == 3){
+				board[AI_Index] = 1;
+				draw_selection_box(25, 25 + 63, 0x0000);
+				draw_board();
+				draw_selection_box(25, 25 + 63, 0xF800);
+				
+			} else if(AI_Index == 4){
+				board[AI_Index] = 1;
+				draw_selection_box(25 + 90, 25 + 63, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 90, 25 + 63, 0xF800);
+				
+			} else if(AI_Index == 5){
+				board[AI_Index] = 1;
+				draw_selection_box(25 + 180, 25 + 63, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 180, 25 + 63, 0xF800);
+
+			} else if(AI_Index == 6){
+				board[AI_Index] = 1;
+				draw_selection_box(25, 25 + 126, 0x0000);
+				draw_board();
+				draw_selection_box(25, 25 + 126, 0xF800);
+				
+			} else if(AI_Index == 7){
+				board[AI_Index] = 1;
+				draw_selection_box(25 + 90, 25 + 126, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 90, 25 + 126, 0xF800);
+				
+			} else {
+				board[AI_Index] = 1;
+				draw_selection_box(25 + 180, 25 + 126, 0x0000);
+				draw_board();
+				draw_selection_box(25 + 180, 25 + 126, 0xF800);
+			}
+			
+			draw_player_X(AI_Index + 1);
+			Turn = 'O'; 
+		}
+	}
+}
 //	}
 }
