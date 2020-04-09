@@ -16,3 +16,5 @@ The game we implemented on CPUlator is Tic-Tac-Toe. It uses the PS/2 Keyboard to
 The user can press [C] to make the AI create a move. This will allow players to play against the computer or help players beat their friends with the assistance of the AI. 
 
 Note: The keys for A, W, S, D, and C invoke 2 keyboard interrupts when typed and we think that is something to do with CPUlator itself. When you type either of those keys, the selection box will move quite fast making it difficult to select. We recommend instead of typing these keys, you send a Make signal instead (see the image below). Typing any of the other keys (other than A, W, S, D, and C) in the game work fine.
+
+![](help.png)
