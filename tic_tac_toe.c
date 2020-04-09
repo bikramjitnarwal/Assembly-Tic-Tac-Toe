@@ -21,7 +21,8 @@ void draw_selection_box(int x, int y, short int selection_colour);
 void swap(int *first, int *second);
 void draw_board(void);
 void write_text(int x, int y, char * text_ptr);
-void clear_screen ();
+void clear_screen();
+void AI_move();
 
 // Functions which handle the tic-tac-toe logic
 int check_winner();
@@ -474,7 +475,7 @@ void keyboard_ISR(void) {
 
 		if (byte0 == 0x21) { //C - AI makes a move if this is clicked
 			clear_text();
-		
+			AI_move();
 		}
 		
 		if(byte0 == 0x5A){ //Enter - place piece on board
@@ -1191,4 +1192,7 @@ void checkforStalemate(){
         }
     }
 	isStalemate = true;
+}
+
+void AI_move(){
 }
