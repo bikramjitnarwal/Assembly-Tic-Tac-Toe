@@ -477,7 +477,6 @@ void keyboard_ISR(void) {
 		}
 
 		if (byte0 == 0x21) { //C - AI makes a move if this is clicked
-			//clear_text();
 			AI_move();
 
 			// check winner
@@ -526,7 +525,6 @@ void keyboard_ISR(void) {
 				char winner_status[150] = "It's a tie! Press [spacebar] to start a new game.\0";
 				write_text(14, 55, winner_status);
 			}
-
 		}
 		
 		if(byte0 == 0x5A){ //Enter - place piece on board
