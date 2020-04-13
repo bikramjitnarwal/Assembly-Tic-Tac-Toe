@@ -1,8 +1,8 @@
 # 243-Final-Project
 
-**Instructions**
+**[Instructions](https://www.youtube.com/watch?v=-RLPuDnXVf4&feature=youtu.be&fbclid=IwAR1Yuw-PtY67nVQKJx97fFNMFP48bzM3Fzk0vYYvdIykowxZxlI43z-loJ8)**
 
-The game we implemented on CPUlator is Tic-Tac-Toe. It uses the PS/2 Keyboard to get input from the user. 
+The game we implemented on [CPUlator](https://cpulator.01xz.net/?sys=arm-de1soc) is Tic-Tac-Toe. It uses the PS/2 Keyboard to get input from the user. 
 
 1. Compile and load the code provided on CPUlator. 
 2. Upon loading the code you will see a welcome screen. Press [X] to start the game. 
